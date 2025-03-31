@@ -2,21 +2,19 @@
   "name": "portfolio-website",
   "version": "1.0.0",
   "private": true,
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
-  },
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
     "react-icons": "^5.2.1",
     "framer-motion": "^11.0.3",
     "react-router-dom": "^6.22.1",
     "react-type-animation": "^2.0.1"
   },
-  "devDependencies": {
-    "vite": "^5.0.0",
-    "@vitejs/plugin-react": "^4.0.0"
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   }
 }
