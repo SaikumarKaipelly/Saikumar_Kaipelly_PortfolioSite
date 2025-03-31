@@ -18,12 +18,6 @@ export default function Portfolio() {
     backgroundRepeat: 'no-repeat',
   };
 
-  const navButtons = [
-    { label: 'Skills', page: 'skills' },
-    { label: 'Experience', page: 'experience' },
-    { label: 'Contact', page: 'contact' },
-  ];
-
   return (
     <div className="min-h-screen text-white font-sans relative" style={backgroundStyle}>
       <AnimatePresence>
@@ -45,38 +39,38 @@ export default function Portfolio() {
 
       {!showSplash && (
         <>
-          {/* Top-Left Name Display */}
-          <div className="absolute top-4 left-6 z-40 text-2xl font-bold text-cyan-300 animate-pulse">
+          {/* Top-Left Name */}
+          <div className="absolute top-4 left-6 z-40 text-2xl font-bold text-cyan-300 cursor-pointer" onClick={() => setPage('home')}>
             <motion.div initial={{ x: -50, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ duration: 1 }}>
               Sai Kumar Kaipelly
             </motion.div>
           </div>
 
-          {/* Home Navigation Buttons */}
+          {/* Top-Right Links */}
+          <div className="absolute top-4 right-6 z-40 flex gap-4 items-center">
+            <a href="https://www.linkedin.com/in/saikumarkaipelly" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400">
+              <FiLinkedin size={24} />
+            </a>
+            <a href="/Sai_Kumar_Kaipelly_Java_Full_Stack_Developer.pdf" download className="hover:text-green-400">
+              <FiDownload size={24} />
+            </a>
+          </div>
+
+          {/* Page Content */}
           {page === 'home' && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="min-h-screen flex flex-col justify-center items-center text-center px-4 backdrop-blur-sm bg-black/60"
-            >
-              <h1 className="text-5xl font-extrabold mb-8">Welcome</h1>
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="min-h-screen flex flex-col justify-center items-center text-center px-6 backdrop-blur bg-black/70">
+              <h1 className="text-5xl font-extrabold mb-4">Welcome to My Portfolio</h1>
+              <p className="max-w-2xl mb-8 text-lg">
+                I’m a Java Full Stack Developer with 4+ years of experience building scalable web applications using Java, Spring Boot, React, Angular, and AWS. I bring performance, security, and elegance to every project.
+              </p>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {navButtons.map((btn, idx) => (
-                  <motion.button
-                    key={btn.page}
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={() => setPage(btn.page)}
-                    className="px-8 py-4 text-xl rounded-xl font-semibold bg-gradient-to-br from-pink-500 via-purple-500 to-blue-500 shadow-xl hover:shadow-2xl transition-transform"
-                  >
-                    {btn.label}
-                  </motion.button>
-                ))}
+                <button onClick={() => setPage('skills')} className="px-6 py-4 text-xl bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg hover:scale-105 transition">Skills</button>
+                <button onClick={() => setPage('experience')} className="px-6 py-4 text-xl bg-gradient-to-r from-pink-500 to-purple-500 rounded-lg hover:scale-105 transition">Experience</button>
+                <button onClick={() => setPage('contact')} className="px-6 py-4 text-xl bg-gradient-to-r from-yellow-400 to-orange-500 rounded-lg hover:scale-105 transition">Contact</button>
               </div>
             </motion.div>
           )}
 
-          {/* Skills Page */}
           {page === 'skills' && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="min-h-screen py-20 px-6 bg-black/70">
               <h2 className="text-4xl font-bold text-center mb-10">My Skills</h2>
@@ -101,7 +95,6 @@ export default function Portfolio() {
             </motion.div>
           )}
 
-          {/* Experience Page */}
           {page === 'experience' && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="min-h-screen py-20 px-6 bg-black/70">
               <h2 className="text-4xl font-bold text-center mb-10">Professional Experience</h2>
@@ -148,18 +141,21 @@ export default function Portfolio() {
             </motion.div>
           )}
 
-          {/* Contact Page */}
           {page === 'contact' && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="min-h-screen py-20 px-6 bg-black/70">
               <h2 className="text-4xl font-bold text-center mb-10">Contact Me</h2>
-              <form className="max-w-xl mx-auto space-y-6">
-                <input type="text" placeholder="Your Name" className="w-full p-3 rounded bg-gray-900 text-white border border-gray-600" />
-                <input type="email" placeholder="Your Email" className="w-full p-3 rounded bg-gray-900 text-white border border-gray-600" />
-                <textarea rows="5" placeholder="Your Message" className="w-full p-3 rounded bg-gray-900 text-white border border-gray-600"></textarea>
+              <form action="https://formspree.io/f/mwkgbkvy" method="POST" className="max-w-xl mx-auto space-y-6">
+                <input type="text" name="name" placeholder="Your Name" required className="w-full p-3 rounded bg-gray-900 text-white border border-gray-600" />
+                <input type="email" name="email" placeholder="Your Email" required className="w-full p-3 rounded bg-gray-900 text-white border border-gray-600" />
+                <textarea name="message" rows="5" placeholder="Your Message" required className="w-full p-3 rounded bg-gray-900 text-white border border-gray-600"></textarea>
                 <button type="submit" className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 py-3 rounded font-semibold text-white hover:from-blue-500 hover:to-cyan-500 transition-colors">
                   Send Message
                 </button>
               </form>
+              <div className="text-center mt-10 space-y-2 text-sm text-gray-300">
+                <div><FiMail className="inline" /> saikumar.k@mymailshub.com</div>
+                <div><FiPhone className="inline" /> 816-352-4575</div>
+              </div>
             </motion.div>
           )}
         </>
