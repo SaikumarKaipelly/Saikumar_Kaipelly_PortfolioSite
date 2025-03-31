@@ -28,7 +28,7 @@ const Layout = ({ children, darkMode, toggleTheme }) => {
   const opacity = useTransform(scrollY, [0, 300], [1, 0.5]);
 
   // Option 1: Background Image (Uncomment this for image)
-  const backgroundImageUrl = 'https://www.freepik.com/free-photo/laptop-with-glowing-screen-table-dark-top-view-copy-space_160645749.htm#fromView=keyword&page=1&position=0&uuid=ff9ff4d7-31d6-49a2-88d2-c0c690957885&query=Portfolio+Background+Web+Developer'; // Stunning mountain landscape
+  const backgroundImageUrl = 'https://www.freepik.com/free-photo/glasses-lie-laptop-reflecting-light-from-screen-dark_172419727.htm#fromView=keyword&page=1&position=28&uuid=789ef127-5b28-4581-94ce-c18c736384ea&query=Portfolio+Background+Web+Developer'; // Stunning mountain landscape
 
   // Option 2: Background Video (Uncomment this for video)
   // const backgroundVideoUrl = 'https://assets.mixkit.co/videos/preview/mixkit-stars-in-space-background-1610-large.mp4'; // Cosmic video
