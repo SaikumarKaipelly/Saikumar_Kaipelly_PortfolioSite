@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FiLinkedin, FiDownload, FiMail, FiPhone } from 'react-icons/fi';
 import { TypeAnimation } from 'react-type-animation';
 
-const backgroundImageUrl = 'https://unsplash.com/photos/person-using-computer-keyboard-X_JsI_9Hl7o';
+const backgroundImageUrl = 'https://unsplash.com/photos/black-computer-keyboard-DuHKoV44prg';
 
 const Layout = ({ children }) => {
   const navigate = useNavigate();
