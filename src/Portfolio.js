@@ -21,27 +21,29 @@ const CustomCursor = () => {
   );
 };
 
-// Updated Layout with Video Background
+// Updated Layout with Software Development-Themed Video Background
 const Layout = ({ children, darkMode, toggleTheme }) => {
   const navigate = useNavigate();
   const { scrollY } = useScroll();
-  const opacity = useTransform(scrollY, [0, 300], [1, 0.5]);
+  const opacity = useTransform(scrollY, [0, 300], [0.8, 0.5]); // Adjusted opacity for better visibility
 
-  // Video Background URL (Stunning cosmic starfield)
-  const backgroundVideoUrl = 'https://www.pexels.com/video/digital-presentation-of-information-on-a-screen-monitor-3130182/';
+  // Software development-themed video background (animated code typing)
+  const backgroundVideoUrl = 'https://assets.mixkit.co/videos/preview/mixkit-software-developer-typing-on-a-computer-153-large.mp4';
 
   return (
     <div className={`min-h-screen font-sans relative ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-black'}`}>
       <CustomCursor />
       {/* Video Background */}
       <motion.video
-        className="absolute inset-0 z-0 w-full h-full object-cover"
+        className="absolute inset-0 z-0 w-full h-full object-cover" // Ensure it covers the entire screen
         autoPlay
         loop
         muted
-        style={{ opacity }}
+        playsInline // Helps with mobile compatibility
+        style={{ opacity, filter: 'brightness(0.7)' }} // Slightly dimmed for text readability
       >
         <source src={backgroundVideoUrl} type="video/mp4" />
+        Your browser does not support the video tag.
       </motion.video>
       <header className="fixed top-0 left-0 right-0 z-40 bg-opacity-80 backdrop-blur-md py-4 px-6 flex justify-between items-center">
         <motion.h1
