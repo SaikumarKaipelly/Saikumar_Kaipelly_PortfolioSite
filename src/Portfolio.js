@@ -1,72 +1,13 @@
-// App.jsx
 import { useEffect, useState, lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import Layout from './Layout';
-import Home from './Home';
-const Skills = lazy(() => import('./Skills'));
-const Experience = lazy(() => import('./Experience'));
-const Contact = lazy(() => import('./Contact'));
-const About = lazy(() => import('./About'));
-const Projects = lazy(() => import('./Projects'));
-
-export default function App() {
-  const [showSplash, setShowSplash] = useState(true);
-  const [darkMode, setDarkMode] = useState(() => localStorage.getItem('theme') === 'dark');
-
-  useEffect(() => {
-    const timer = setTimeout(() => setShowSplash(false), 2000);
-    return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem('theme', darkMode ? 'dark' : 'light');
-  }, [darkMode]);
-
-  const toggleTheme = () => setDarkMode((prev) => !prev);
-
-  return (
-    <Router>
-      <AnimatePresence>
-        {showSplash && (
-          <motion.div
-            key="splash"
-            initial={{ opacity: 1 }}
-            animate={{ opacity: 0 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black text-white text-5xl font-extrabold tracking-widest"
-          >
-            <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 1 }}>
-              Sai Kumar Kaipelly
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-      {!showSplash && (
-        <Suspense fallback={<div className="text-center py-10">Loading...</div>}>
-          <Routes>
-            <Route path="/" element={<Layout darkMode={darkMode} toggleTheme={toggleTheme}><Home /></Layout>} />
-            <Route path="/skills" element={<Layout darkMode={darkMode} toggleTheme={toggleTheme}><Skills /></Layout>} />
-            <Route path="/experience" element={<Layout darkMode={darkMode} toggleTheme={toggleTheme}><Experience /></Layout>} />
-            <Route path="/contact" element={<Layout darkMode={darkMode} toggleTheme={toggleTheme}><Contact /></Layout>} />
-            <Route path="/about" element={<Layout darkMode={darkMode} toggleTheme={toggleTheme}><About /></Layout>} />
-            <Route path="/projects" element={<Layout darkMode={darkMode} toggleTheme={toggleTheme}><Projects /></Layout>} />
-            <Route path="*" element={<Layout darkMode={darkMode} toggleTheme={toggleTheme}><div className="text-center py-10">404 - Page Not Found</div></Layout>} />
-          </Routes>
-        </Suspense>
-      )}
-    </Router>
-  );
-}
-
-// Layout.jsx
-import { useNavigate } from 'react-router-dom';
 import { FiLinkedin, FiDownload, FiMail, FiPhone, FiSun, FiMoon } from 'react-icons/fi';
+import { TypeAnimation } from 'react-type-animation';
 import Particles from 'react-tsparticles';
 
 const backgroundImageUrl = process.env.PUBLIC_URL + '/bg-pattern.webp';
 
+// Layout Component
 const Layout = ({ children, darkMode, toggleTheme }) => {
   const navigate = useNavigate();
   return (
@@ -74,7 +15,7 @@ const Layout = ({ children, darkMode, toggleTheme }) => {
       <div className="absolute inset-0 z-0">
         <Particles options={{
           particles: {
-            number: { value: 30 }, // Reduced for performance
+            number: { value: 30 },
             size: { value: 3 },
             move: { enable: true, speed: 1 },
             links: { enable: true, color: darkMode ? '#ffffff' : '#000000' },
@@ -101,13 +42,7 @@ const Layout = ({ children, darkMode, toggleTheme }) => {
   );
 };
 
-export default Layout;
-
-// Home.jsx
-import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { TypeAnimation } from 'react-type-animation';
-
+// Home Component
 const Home = () => {
   const navigate = useNavigate();
   return (
@@ -132,11 +67,7 @@ const Home = () => {
   );
 };
 
-export default Home;
-
-// About.jsx
-import { motion } from 'framer-motion';
-
+// About Component
 const About = () => (
   <motion.div initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="py-10 max-w-3xl mx-auto text-center">
     <h2 className="text-4xl font-bold mb-6">About Me</h2>
@@ -152,11 +83,23 @@ const About = () => (
   </motion.div>
 );
 
-export default About;
-
-// Projects.jsx
-import { motion } from 'framer-motion';
-import { projects } from './data';
+// Projects Component
+const projects = [
+  {
+    title: 'Portfolio Website',
+    description: 'My own professional portfolio built with React and Tailwind.',
+    tech: ['React', 'Tailwind CSS', 'Framer Motion'],
+    github: '#',
+    live: '#',
+  },
+  {
+    title: 'Task Manager App',
+    description: 'To-do list web app with authentication and cloud sync.',
+    tech: ['React', 'Firebase', 'Bootstrap'],
+    github: '#',
+    live: '#',
+  },
+];
 
 const Projects = () => (
   <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="py-10 max-w-5xl mx-auto">
@@ -177,13 +120,7 @@ const Projects = () => (
   </motion.div>
 );
 
-export default Projects;
-
-// Contact.jsx
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { FiMail, FiPhone } from 'react-icons/fi';
-
+// Contact Component
 const Contact = () => {
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
@@ -198,7 +135,6 @@ const Contact = () => {
 
     if (Object.keys(newErrors).length === 0) {
       setSubmitted(true);
-      // Normally you'd send this to Formspree here
     } else {
       setErrors(newErrors);
     }
@@ -211,7 +147,7 @@ const Contact = () => {
         <div className="text-center text-green-400 font-semibold">Thank you! Your message has been sent.</div>
       ) : (
         <form onSubmit={handleSubmit} className="max-w-xl mx-auto space-y-6">
-          <input type="text" name="_gotcha" style={{ display: 'none' }} /> {/* Honeypot */}
+          <input type="text" name="_gotcha" style={{ display: 'none' }} />
           <div>
             <input
               type="text"
@@ -261,11 +197,7 @@ const Contact = () => {
   );
 };
 
-export default Contact;
-
-// Skills.jsx
-import { motion } from 'framer-motion';
-
+// Skills Component
 const Skills = () => (
   <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="py-10">
     <h2 className="text-4xl font-bold text-center mb-10">My Skills</h2>
@@ -290,50 +222,8 @@ const Skills = () => (
   </motion.div>
 );
 
-export default Skills;
-
-// Experience.jsx
-import { motion } from 'framer-motion';
-import { experiences } from './data';
-
-const Experience = () => (
-  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="py-10">
-    <h2 className="text-4xl font-bold text-center mb-10">Professional Experience</h2>
-    <div className="space-y-8 max-w-4xl mx-auto">
-      {experiences.map((exp, idx) => (
-        <motion.div key={idx} initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }} className="bg-gray-800 p-6 rounded-xl">
-          <h3 className="text-2xl font-bold text-pink-400">{exp.company}</h3>
-          <p className="text-sm italic">{exp.role} | {exp.duration}</p>
-          <ul className="list-disc pl-6 mt-3 text-sm space-y-1">
-            {exp.work.map((w, i) => <li key={i}>{w}</li>)}
-          </ul>
-        </motion.div>
-      ))}
-    </div>
-  </motion.div>
-);
-
-export default Experience;
-
-// data.js
-export const projects = [
-  {
-    title: 'Portfolio Website',
-    description: 'My own professional portfolio built with React and Tailwind.',
-    tech: ['React', 'Tailwind CSS', 'Framer Motion'],
-    github: '#',
-    live: '#',
-  },
-  {
-    title: 'Task Manager App',
-    description: 'To-do list web app with authentication and cloud sync.',
-    tech: ['React', 'Firebase', 'Bootstrap'],
-    github: '#',
-    live: '#',
-  },
-];
-
-export const experiences = [
+// Experience Component
+const experiences = [
   {
     company: 'PNC Financial Services',
     role: 'Java Full Stack Developer',
@@ -363,3 +253,78 @@ export const experiences = [
     ],
   },
 ];
+
+const Experience = () => (
+  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="py-10">
+    <h2 className="text-4xl font-bold text-center mb-10">Professional Experience</h2>
+    <div className="space-y-8 max-w-4xl mx-auto">
+      {experiences.map((exp, idx) => (
+        <motion.div key={idx} initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }} className="bg-gray-800 p-6 rounded-xl">
+          <h3 className="text-2xl font-bold text-pink-400">{exp.company}</h3>
+          <p className="text-sm italic">{exp.role} | {exp.duration}</p>
+          <ul className="list-disc pl-6 mt-3 text-sm space-y-1">
+            {exp.work.map((w, i) => <li key={i}>{w}</li>)}
+          </ul>
+        </motion.div>
+      ))}
+    </div>
+  </motion.div>
+);
+
+// Lazy-loaded Components
+const SkillsLazy = lazy(() => Promise.resolve({ default: Skills }));
+const ExperienceLazy = lazy(() => Promise.resolve({ default: Experience }));
+const ContactLazy = lazy(() => Promise.resolve({ default: Contact }));
+const AboutLazy = lazy(() => Promise.resolve({ default: About }));
+const ProjectsLazy = lazy(() => Promise.resolve({ default: Projects }));
+
+// App Component
+export default function App() {
+  const [showSplash, setShowSplash] = useState(true);
+  const [darkMode, setDarkMode] = useState(() => localStorage.getItem('theme') === 'dark');
+
+  useEffect(() => {
+    const timer = setTimeout(() => setShowSplash(false), 2000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('theme', darkMode ? 'dark' : 'light');
+  }, [darkMode]);
+
+  const toggleTheme = () => setDarkMode((prev) => !prev);
+
+  return (
+    <Router>
+      <AnimatePresence>
+        {showSplash && (
+          <motion.div
+            key="splash"
+            initial={{ opacity: 1 }}
+            animate={{ opacity: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black text-white text-5xl font-extrabold tracking-widest"
+          >
+            <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 1 }}>
+              Sai Kumar Kaipelly
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      {!showSplash && (
+        <Suspense fallback={<div className="text-center py-10">Loading...</div>}>
+          <Routes>
+            <Route path="/" element={<Layout darkMode={darkMode} toggleTheme={toggleTheme}><Home /></Layout>} />
+            <Route path="/skills" element={<Layout darkMode={darkMode} toggleTheme={toggleTheme}><SkillsLazy /></Layout>} />
+            <Route path="/experience" element={<Layout darkMode={darkMode} toggleTheme={toggleTheme}><ExperienceLazy /></Layout>} />
+            <Route path="/contact" element={<Layout darkMode={darkMode} toggleTheme={toggleTheme}><ContactLazy /></Layout>} />
+            <Route path="/about" element={<Layout darkMode={darkMode} toggleTheme={toggleTheme}><AboutLazy /></Layout>} />
+            <Route path="/projects" element={<Layout darkMode={darkMode} toggleTheme={toggleTheme}><ProjectsLazy /></Layout>} />
+            <Route path="*" element={<Layout darkMode={darkMode} toggleTheme={toggleTheme}><div className="text-center py-10">404 - Page Not Found</div></Layout>} />
+          </Routes>
+        </Suspense>
+      )}
+    </Router>
+  );
+}
