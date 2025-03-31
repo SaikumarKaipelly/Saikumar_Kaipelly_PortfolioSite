@@ -3,12 +3,8 @@ import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-route
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { FiLinkedin, FiDownload, FiMail, FiPhone, FiSun, FiMoon } from 'react-icons/fi';
 import { TypeAnimation } from 'react-type-animation';
-import Particles from 'react-tsparticles';
-import Tilt from 'react-parallax-tilt'; // For 3D tilt effect
+import Tilt from 'react-parallax-tilt';
 
-const backgroundImageUrl = process.env.PUBLIC_URL + '/bg-pattern.webp';
-
-// Custom Cursor Component
 const CustomCursor = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   useEffect(() => {
@@ -25,26 +21,36 @@ const CustomCursor = () => {
   );
 };
 
-// Layout Component
+// Updated Layout with Background Image or Video
 const Layout = ({ children, darkMode, toggleTheme }) => {
   const navigate = useNavigate();
   const { scrollY } = useScroll();
   const opacity = useTransform(scrollY, [0, 300], [1, 0.5]);
 
+  // Option 1: Background Image (Uncomment this for image)
+  const backgroundImageUrl = 'https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1920&auto=format&fit=crop'; // Stunning mountain landscape
+
+  // Option 2: Background Video (Uncomment this for video)
+  // const backgroundVideoUrl = 'https://assets.mixkit.co/videos/preview/mixkit-stars-in-space-background-1610-large.mp4'; // Cosmic video
+
   return (
     <div className={`min-h-screen font-sans relative ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-black'}`}>
       <CustomCursor />
-      <motion.div className="absolute inset-0 z-0" style={{ opacity }}>
-        <Particles options={{
-          particles: {
-            number: { value: 50 },
-            size: { value: 2, random: true },
-            move: { enable: true, speed: 2, direction: 'none', random: true },
-            links: { enable: true, color: darkMode ? '#ffffff' : '#000000', opacity: 0.3 },
-          },
-          interactivity: { events: { onHover: { enable: true, mode: 'repulse' } } },
-        }} />
-      </motion.div>
+      {/* Background Image */}
+      <motion.div
+        className="absolute inset-0 z-0 bg-cover bg-center"
+        style={{ backgroundImage: `url(${backgroundImageUrl})`, opacity }}
+      />
+      {/* Background Video (Uncomment this block and comment the image block above if you want a video) */}
+      {/* <motion.video
+        className="absolute inset-0 z-0 w-full h-full object-cover"
+        autoPlay
+        loop
+        muted
+        style={{ opacity }}
+      >
+        <source src={backgroundVideoUrl} type="video/mp4" />
+      </motion.video> */}
       <header className="fixed top-0 left-0 right-0 z-40 bg-opacity-80 backdrop-blur-md py-4 px-6 flex justify-between items-center">
         <motion.h1
           initial={{ x: -100, opacity: 0 }}
@@ -56,7 +62,7 @@ const Layout = ({ children, darkMode, toggleTheme }) => {
           Sai Kumar Kaipelly
         </motion.h1>
         <nav className="flex gap-6 items-center">
-          {['skills', 'experience', 'projects', 'contact'].map((item, idx) => (
+          {['skills', 'experience', 'contact'].map((item, idx) => (
             <motion.a
               key={item}
               href={`/${item}`}
@@ -91,7 +97,6 @@ const Layout = ({ children, darkMode, toggleTheme }) => {
   );
 };
 
-// Home Component
 const Home = () => {
   const navigate = useNavigate();
   return (
@@ -138,7 +143,6 @@ const Home = () => {
   );
 };
 
-// About Component
 const About = () => (
   <motion.section
     initial={{ opacity: 0, y: 50 }}
@@ -165,45 +169,6 @@ const About = () => (
   </motion.section>
 );
 
-// Projects Component
-const projects = [
-  { title: 'Portfolio Website', description: 'My professional portfolio with React and Tailwind.', tech: ['React', 'Tailwind CSS', 'Framer Motion'], github: '#', live: '#' },
-  { title: 'Task Manager App', description: 'To-do list app with authentication and cloud sync.', tech: ['React', 'Firebase', 'Bootstrap'], github: '#', live: '#' },
-];
-
-const Projects = () => (
-  <motion.section
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    transition={{ duration: 0.8 }}
-    className="py-20 max-w-5xl mx-auto"
-  >
-    <h2 className="text-5xl font-bold text-center mb-12 bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Projects</h2>
-    <div className="grid gap-8 md:grid-cols-2">
-      {projects.map((p, i) => (
-        <motion.div
-          key={i}
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: i * 0.2 }}
-          whileHover={{ scale: 1.05, boxShadow: '0 15px 30px rgba(0, 0, 0, 0.3)' }}
-          className="bg-opacity-20 bg-gray-800 backdrop-blur-lg p-6 rounded-xl shadow-lg border border-gray-700/50"
-        >
-          <h3 className="text-2xl font-bold text-cyan-400 mb-2">{p.title}</h3>
-          <p className="text-sm text-gray-300 mb-3">{p.description}</p>
-          <p className="text-xs text-gray-400 mb-4">{p.tech.join(', ')}</p>
-          <div className="flex gap-4 text-sm">
-            <motion.a href={p.github} whileHover={{ x: 5 }} className="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">GitHub</motion.a>
-            <motion.a href={p.live} whileHover={{ x: 5 }} className="text-green-400 hover:underline" target="_blank" rel="noopener noreferrer">Live Demo</motion.a>
-          </div>
-        </motion.div>
-      ))}
-    </div>
-  </motion.section>
-);
-
-// Contact Component
 const Contact = () => {
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
@@ -286,7 +251,6 @@ const Contact = () => {
   );
 };
 
-// Skills Component
 const skillsData = [
   { category: 'Languages', skills: ['Java', 'C++', 'Python', 'JavaScript', 'TypeScript', 'SQL'], progress: 90 },
   { category: 'Frontend', skills: ['React.js', 'Angular.js', 'HTML5', 'CSS3', 'Bootstrap', 'Redux'], progress: 85 },
@@ -328,7 +292,6 @@ const Skills = () => (
   </motion.section>
 );
 
-// Experience Component
 const experiences = [
   { company: 'PNC Financial Services', role: 'Java Full Stack Developer', duration: 'Jul 2024 – Present', work: ['Optimized React caching, improved load time by 25%', 'Implemented OAuth 2.0 and AWS IAM', 'Adopted GraphQL and enhanced Spring Boot efficiency'] },
   { company: 'Zensar Technologies', role: 'Java Full Stack Developer', duration: 'Jun 2021 – Jun 2023', work: ['Modular Angular design with enhanced testability', 'Built scalable Java 11 services with GraphQL and MongoDB'] },
@@ -367,14 +330,11 @@ const Experience = () => (
   </motion.section>
 );
 
-// Lazy-loaded Components
 const SkillsLazy = lazy(() => Promise.resolve({ default: Skills }));
 const ExperienceLazy = lazy(() => Promise.resolve({ default: Experience }));
 const ContactLazy = lazy(() => Promise.resolve({ default: Contact }));
 const AboutLazy = lazy(() => Promise.resolve({ default: About }));
-const ProjectsLazy = lazy(() => Promise.resolve({ default: Projects }));
 
-// App Component
 export default function App() {
   const [showSplash, setShowSplash] = useState(true);
   const [darkMode, setDarkMode] = useState(() => localStorage.getItem('theme') === 'dark');
@@ -422,7 +382,6 @@ export default function App() {
             <Route path="/experience" element={<Layout darkMode={darkMode} toggleTheme={toggleTheme}><ExperienceLazy /></Layout>} />
             <Route path="/contact" element={<Layout darkMode={darkMode} toggleTheme={toggleTheme}><ContactLazy /></Layout>} />
             <Route path="/about" element={<Layout darkMode={darkMode} toggleTheme={toggleTheme}><AboutLazy /></Layout>} />
-            <Route path="/projects" element={<Layout darkMode={darkMode} toggleTheme={toggleTheme}><  ProjectsLazy /></Layout>} />
             <Route path="*" element={<Layout darkMode={darkMode} toggleTheme={toggleTheme}><div className="text-center py-20 text-gray-400">404 - Page Not Found</div></Layout>} />
           </Routes>
         </Suspense>
