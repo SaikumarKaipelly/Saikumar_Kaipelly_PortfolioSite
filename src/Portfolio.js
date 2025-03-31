@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-route
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiLinkedin, FiDownload, FiMail, FiPhone } from 'react-icons/fi';
 
-const backgroundImageUrl = 'https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=1650&q=80'; // Change this to your own image URL
+const backgroundImageUrl = 'https://unsplash.com/photos/a-modern-library-with-tall-bookshelves-and-windows-1tqb24t3mAw'; // Change this to your own image URL
 
 const Layout = ({ children }) => {
   const navigate = useNavigate();
