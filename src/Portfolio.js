@@ -28,7 +28,7 @@ const Layout = ({ children, darkMode, toggleTheme }) => {
   const opacity = useTransform(scrollY, [0, 300], [1, 0.5]);
 
   // Video Background URL (Stunning cosmic starfield)
-  const backgroundVideoUrl = 'https://assets.mixkit.co/videos/preview/mixkit-stars-in-space-background-1610-large.mp4';
+  const backgroundVideoUrl = 'https://www.pexels.com/video/digital-presentation-of-information-on-a-screen-monitor-3130182/';
 
   return (
     <div className={`min-h-screen font-sans relative ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-black'}`}>
