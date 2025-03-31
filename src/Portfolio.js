@@ -21,47 +21,36 @@ const CustomCursor = () => {
   );
 };
 
-// Updated Layout with Video Background and Fallback
+// Updated Layout with Background Image or Video
 const Layout = ({ children, darkMode, toggleTheme }) => {
   const navigate = useNavigate();
   const { scrollY } = useScroll();
-  const opacity = useTransform(scrollY, [0, 300], [1, 0.7]); // Adjusted for visibility
+  const opacity = useTransform(scrollY, [0, 300], [1, 0.5]);
 
-  // Software development-themed video (coding animation from Pexels)
-  const backgroundVideoUrl = 'https://videos.pexels.com/video-files/3195395/3195395-hd_1920_1080_24fps.mp4';
-  // Fallback image (code-themed, in case video fails)
-  const fallbackImageUrl = 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1920&auto=format&fit=crop';
+  // Option 1: Background Image (Uncomment this for image)
+  const backgroundImageUrl = 'https://www.freepik.com/free-photo/laptop-with-glowing-screen-table-dark-top-view-copy-space_160645749.htm#fromView=keyword&page=1&position=0&uuid=ff9ff4d7-31d6-49a2-88d2-c0c690957885&query=Portfolio+Background+Web+Developer'; // Stunning mountain landscape
+
+  // Option 2: Background Video (Uncomment this for video)
+  // const backgroundVideoUrl = 'https://assets.mixkit.co/videos/preview/mixkit-stars-in-space-background-1610-large.mp4'; // Cosmic video
 
   return (
     <div className={`min-h-screen font-sans relative ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-black'}`}>
       <CustomCursor />
-      {/* Video Background with Fallback */}
+      {/* Background Image */}
       <motion.div
-        className="absolute inset-0 z-0 w-full h-full"
+        className="absolute inset-0 z-0 bg-cover bg-center"
+        style={{ backgroundImage: `url(${backgroundImageUrl})`, opacity }}
+      />
+      {/* Background Video (Uncomment this block and comment the image block above if you want a video) */}
+      {/* <motion.video
+        className="absolute inset-0 z-0 w-full h-full object-cover"
+        autoPlay
+        loop
+        muted
         style={{ opacity }}
       >
-        <video
-          className="w-full h-full object-cover"
-          autoPlay
-          loop
-          muted
-          playsInline
-          style={{ filter: 'brightness(0.8)' }} // Slightly dimmed for text contrast
-          onError={(e) => {
-            e.target.style.display = 'none'; // Hide video if it fails
-            e.target.nextSibling.style.display = 'block'; // Show fallback image
-          }}
-        >
-          <source src={backgroundVideoUrl} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-        <img
-          src={fallbackImageUrl}
-          alt="Fallback background"
-          className="w-full h-full object-cover"
-          style={{ display: 'none' }} // Hidden unless video fails
-        />
-      </motion.div>
+        <source src={backgroundVideoUrl} type="video/mp4" />
+      </motion.video> */}
       <header className="fixed top-0 left-0 right-0 z-40 bg-opacity-80 backdrop-blur-md py-4 px-6 flex justify-between items-center">
         <motion.h1
           initial={{ x: -100, opacity: 0 }}
