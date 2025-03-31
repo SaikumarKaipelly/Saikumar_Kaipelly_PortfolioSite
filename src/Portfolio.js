@@ -1,68 +1,31 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiLinkedin, FiDownload, FiMail, FiPhone, FiSun, FiMoon } from 'react-icons/fi';
+import { FiLinkedin, FiDownload, FiMail, FiPhone } from 'react-icons/fi';
 
 export default function Portfolio() {
   const [page, setPage] = useState('home');
   const [showSplash, setShowSplash] = useState(true);
-  const [darkMode, setDarkMode] = useState(true);
-  const [expandedCompany, setExpandedCompany] = useState(null);
-  const [showSkills, setShowSkills] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => setShowSplash(false), 2500);
     return () => clearTimeout(timer);
   }, []);
 
-  const toggleTheme = () => setDarkMode(!darkMode);
-
-  const skills = {
-    Languages: ['Java', 'C++', 'Python', 'JavaScript', 'TypeScript', 'SQL'],
-    Frontend: ['React.js', 'Angular.js', 'HTML5', 'CSS3', 'Bootstrap', 'Redux'],
-    Backend: ['Spring Boot', 'Spring MVC', 'Node.js', 'Express.js', 'GraphQL'],
-    Cloud_DevOps: ['AWS', 'Docker', 'Kubernetes', 'Jenkins', 'GitHub', 'CI/CD']
+  const backgroundStyle = {
+    backgroundImage: 'url(https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=1650&q=80)',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
   };
 
-  const experiences = [
-    {
-      company: 'PNC Financial Services',
-      role: 'Java Full Stack Developer',
-      duration: 'Jul 2024 – Present',
-      details: [
-        'Optimized React caching to reduce page load time by 25%',
-        'Used Spring Boot auto-configuration to speed up development by 20%',
-        'Integrated OAuth 2.0 and enhanced security with AWS IAM & VPC',
-        'Adopted GraphQL for efficient data fetching'
-      ],
-      skills: ['React', 'Spring Boot', 'GraphQL', 'AWS', 'OAuth 2.0']
-    },
-    {
-      company: 'Zensar Technologies',
-      role: 'Java Full Stack Developer',
-      duration: 'Jun 2021 – Jun 2023',
-      details: [
-        'Built modular Angular apps improving reusability by 40%',
-        'Used Java 11 and Spring Boot for scalable backend services',
-        'Streamlined data with GraphQL and MongoDB integration',
-        'Used Mockito for test coverage and AWS CodeDeploy for CI/CD'
-      ],
-      skills: ['Angular', 'Java 11', 'GraphQL', 'MongoDB', 'CI/CD']
-    },
-    {
-      company: 'Fusion Software Technologies',
-      role: 'Java Full Stack Developer',
-      duration: 'Jan 2020 – May 2021',
-      details: [
-        'Built microservices and dynamic Angular UI',
-        'Wrote unit tests with JUnit and automated API testing',
-        'Deployed to AWS EKS with scaling policies'
-      ],
-      skills: ['Microservices', 'JUnit', 'Angular', 'AWS EKS']
-    }
+  const navButtons = [
+    { label: 'Skills', page: 'skills' },
+    { label: 'Experience', page: 'experience' },
+    { label: 'Contact', page: 'contact' },
   ];
 
   return (
-    <div className={`${darkMode ? 'bg-black text-gray-100' : 'bg-white text-gray-900'} min-h-screen font-sans transition-colors duration-500`}>
+    <div className="min-h-screen text-white font-sans relative" style={backgroundStyle}>
       <AnimatePresence>
         {showSplash && (
           <motion.div
@@ -71,85 +34,134 @@ export default function Portfolio() {
             animate={{ opacity: 0 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 1 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-r from-purple-900 to-black text-white text-5xl font-bold"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black text-white text-5xl font-extrabold tracking-widest"
           >
-            Sai Kumar Kaipelly
+            <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 1 }}>
+              Sai Kumar Kaipelly
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
 
       {!showSplash && (
         <>
-          <nav className="flex justify-between items-center px-8 py-6 sticky top-0 z-50 bg-opacity-80 backdrop-blur bg-black">
-            <h1 className="text-2xl font-bold cursor-pointer" onClick={() => setPage('home')}>Portfolio</h1>
-            <div className="flex gap-4 items-center">
-              <button onClick={() => setPage('skills')}>Skills</button>
-              <button onClick={() => setPage('experience')}>Experience</button>
-              <button onClick={() => setPage('contact')}>Contact</button>
-              <button onClick={toggleTheme} title="Toggle Theme">
-                {darkMode ? <FiSun /> : <FiMoon />}
-              </button>
-              <a href="https://www.linkedin.com/in/saikumarkaipelly" target="_blank" rel="noopener noreferrer"><FiLinkedin /></a>
-              <a href="https://your-vercel-site.vercel.app/Sai_Kumar_Kaipelly_Java_Full_Stack_Developer.pdf" target="_blank" rel="noopener noreferrer"><FiDownload /></a>
-            </div>
-          </nav>
+          {/* Top-Left Name Display */}
+          <div className="absolute top-4 left-6 z-40 text-2xl font-bold text-cyan-300 animate-pulse">
+            <motion.div initial={{ x: -50, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ duration: 1 }}>
+              Sai Kumar Kaipelly
+            </motion.div>
+          </div>
 
-          <main className="px-8 py-10">
-            {page === 'home' && (
-              <motion.section initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }} className="text-center">
-                <h2 className="text-4xl font-bold mb-4">Welcome to My Portfolio</h2>
-                <p className="text-lg">Java Full Stack Developer passionate about building dynamic web applications.</p>
-              </motion.section>
-            )}
-
-            {page === 'skills' && (
-              <motion.section initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
-                <h2 className="text-3xl font-bold mb-4 text-center">Skills</h2>
-                {Object.entries(skills).map(([category, items]) => (
-                  <div key={category} className="bg-gray-800 p-4 rounded-xl">
-                    <h3 className="text-xl font-semibold text-cyan-400 mb-2">{category.replace('_', ' & ')}</h3>
-                    <ul className="list-disc pl-6 space-y-1">
-                      {items.map((skill) => <li key={skill}>{skill}</li>)}
-                    </ul>
-                  </div>
+          {/* Home Navigation Buttons */}
+          {page === 'home' && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="min-h-screen flex flex-col justify-center items-center text-center px-4 backdrop-blur-sm bg-black/60"
+            >
+              <h1 className="text-5xl font-extrabold mb-8">Welcome</h1>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {navButtons.map((btn, idx) => (
+                  <motion.button
+                    key={btn.page}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => setPage(btn.page)}
+                    className="px-8 py-4 text-xl rounded-xl font-semibold bg-gradient-to-br from-pink-500 via-purple-500 to-blue-500 shadow-xl hover:shadow-2xl transition-transform"
+                  >
+                    {btn.label}
+                  </motion.button>
                 ))}
-              </motion.section>
-            )}
+              </div>
+            </motion.div>
+          )}
 
-            {page === 'experience' && (
-              <motion.section initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
-                <h2 className="text-3xl font-bold mb-4 text-center">Professional Experience</h2>
-                {experiences.map((exp, i) => (
-                  <div key={i} className="bg-gray-800 p-4 rounded-xl cursor-pointer" onClick={() => setExpandedCompany(exp.company === expandedCompany ? null : exp.company)}>
-                    <h3 className="text-xl font-semibold text-pink-400">{exp.company}</h3>
-                    <p className="text-sm italic">{exp.role} | {exp.duration}</p>
-                    {expandedCompany === exp.company && (
-                      <div className="mt-4 text-sm">
-                        <ul className="list-disc pl-6 space-y-1">
-                          {exp.details.map((d, idx) => <li key={idx}>{d}</li>)}
-                        </ul>
-                        <p className="mt-2"><b>Skills used:</b> {exp.skills.join(', ')}</p>
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </motion.section>
-            )}
-
-            {page === 'contact' && (
-              <motion.section initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center">
-                <h2 className="text-3xl font-bold mb-6 text-pink-400">Contact Me</h2>
-                <div className="space-y-4 text-lg">
-                  <div className="flex justify-center items-center gap-2"><FiMail /> saikumar.k@mymailshub.com</div>
-                  <div className="flex justify-center items-center gap-2"><FiPhone /> 816-352-4575</div>
+          {/* Skills Page */}
+          {page === 'skills' && (
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="min-h-screen py-20 px-6 bg-black/70">
+              <h2 className="text-4xl font-bold text-center mb-10">My Skills</h2>
+              <div className="grid gap-8 max-w-4xl mx-auto">
+                <div className="bg-gray-800 p-6 rounded-xl">
+                  <h3 className="text-xl font-semibold text-cyan-300 mb-2">Languages</h3>
+                  <p>Java, C++, Python, JavaScript, TypeScript, SQL</p>
                 </div>
-              </motion.section>
-            )}
-          </main>
+                <div className="bg-gray-800 p-6 rounded-xl">
+                  <h3 className="text-xl font-semibold text-cyan-300 mb-2">Frontend</h3>
+                  <p>React.js, Angular.js, HTML5, CSS3, Bootstrap, Redux</p>
+                </div>
+                <div className="bg-gray-800 p-6 rounded-xl">
+                  <h3 className="text-xl font-semibold text-cyan-300 mb-2">Backend</h3>
+                  <p>Spring Boot, Spring MVC, Node.js, Express.js, GraphQL</p>
+                </div>
+                <div className="bg-gray-800 p-6 rounded-xl">
+                  <h3 className="text-xl font-semibold text-cyan-300 mb-2">Cloud & DevOps</h3>
+                  <p>AWS, Docker, Kubernetes, Jenkins, GitHub, CI/CD</p>
+                </div>
+              </div>
+            </motion.div>
+          )}
 
-          <footer className="text-center py-6 text-sm opacity-80 border-t border-gray-700">
-            © {new Date().getFullYear()} Sai Kumar Kaipelly
-          </footer>
+          {/* Experience Page */}
+          {page === 'experience' && (
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="min-h-screen py-20 px-6 bg-black/70">
+              <h2 className="text-4xl font-bold text-center mb-10">Professional Experience</h2>
+              <div className="space-y-8 max-w-4xl mx-auto">
+                {[
+                  {
+                    company: 'PNC Financial Services',
+                    role: 'Java Full Stack Developer',
+                    duration: 'Jul 2024 – Present',
+                    work: [
+                      'Optimized React caching, improved load time by 25%',
+                      'Implemented OAuth 2.0 and AWS IAM',
+                      'Adopted GraphQL and enhanced Spring Boot efficiency'
+                    ]
+                  },
+                  {
+                    company: 'Zensar Technologies',
+                    role: 'Java Full Stack Developer',
+                    duration: 'Jun 2021 – Jun 2023',
+                    work: [
+                      'Modular Angular design with enhanced testability',
+                      'Built scalable Java 11 services with GraphQL and MongoDB'
+                    ]
+                  },
+                  {
+                    company: 'Fusion Software Technologies',
+                    role: 'Java Full Stack Developer',
+                    duration: 'Jan 2020 – May 2021',
+                    work: [
+                      'Built microservices and Angular interfaces',
+                      'Containerized apps using AWS EKS'
+                    ]
+                  }
+                ].map((exp, idx) => (
+                  <motion.div key={idx} whileHover={{ scale: 1.02 }} className="bg-gray-800 p-6 rounded-xl cursor-pointer">
+                    <h3 className="text-2xl font-bold text-pink-400">{exp.company}</h3>
+                    <p className="text-sm italic">{exp.role} | {exp.duration}</p>
+                    <ul className="list-disc pl-6 mt-3 text-sm space-y-1">
+                      {exp.work.map((w, i) => <li key={i}>{w}</li>)}
+                    </ul>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          )}
+
+          {/* Contact Page */}
+          {page === 'contact' && (
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="min-h-screen py-20 px-6 bg-black/70">
+              <h2 className="text-4xl font-bold text-center mb-10">Contact Me</h2>
+              <form className="max-w-xl mx-auto space-y-6">
+                <input type="text" placeholder="Your Name" className="w-full p-3 rounded bg-gray-900 text-white border border-gray-600" />
+                <input type="email" placeholder="Your Email" className="w-full p-3 rounded bg-gray-900 text-white border border-gray-600" />
+                <textarea rows="5" placeholder="Your Message" className="w-full p-3 rounded bg-gray-900 text-white border border-gray-600"></textarea>
+                <button type="submit" className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 py-3 rounded font-semibold text-white hover:from-blue-500 hover:to-cyan-500 transition-colors">
+                  Send Message
+                </button>
+              </form>
+            </motion.div>
+          )}
         </>
       )}
     </div>
