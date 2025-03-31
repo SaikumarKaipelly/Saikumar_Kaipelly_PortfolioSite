@@ -28,7 +28,7 @@ const Layout = ({ children, darkMode, toggleTheme }) => {
   const opacity = useTransform(scrollY, [0, 300], [1, 0.5]);
 
   // Option 1: Background Image (Uncomment this for image)
-  const backgroundImageUrl = 'https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1920&auto=format&fit=crop'; // Stunning mountain landscape
+ // const backgroundImageUrl = 'https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1920&auto=format&fit=crop'; // Stunning mountain landscape
 
   // Option 2: Background Video (Uncomment this for video)
   // const backgroundVideoUrl = 'https://assets.mixkit.co/videos/preview/mixkit-stars-in-space-background-1610-large.mp4'; // Cosmic video
@@ -37,17 +37,17 @@ const Layout = ({ children, darkMode, toggleTheme }) => {
     <div className={`min-h-screen font-sans relative ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-black'}`}>
       <CustomCursor />
       {/* Background Image */}
-      <motion.div
-        className="absolute inset-0 z-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${backgroundImageUrl})`, opacity }}
+      //<motion.div
+       // className="absolute inset-0 z-0 bg-cover bg-center"
+        //style={{ backgroundImage: `url(${backgroundImageUrl})`, opacity }}
       />
       {/* Background Video (Uncomment this block and comment the image block above if you want a video) */}
-      {/* <motion.video
+       <motion.video
         className="absolute inset-0 z-0 w-full h-full object-cover"
         autoPlay
         loop
         muted
-        style={{ opacity }}
+        style={{ opacity }
       >
         <source src={backgroundVideoUrl} type="video/mp4" />
       </motion.video> */}
