@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FiLinkedin, FiDownload, FiMail, FiPhone, FiGithub, FiExternalLink } from 'react-icons/fi';
 import { TypeAnimation } from 'react-type-animation';
 import Particles from 'react-tsparticles';
-import { loadFull } from 'tsparticles';
+//import { loadFull } from 'tsparticles';
 
 const backgroundImageUrl = process.env.PUBLIC_URL + '/bg-pattern.jpg';
 
