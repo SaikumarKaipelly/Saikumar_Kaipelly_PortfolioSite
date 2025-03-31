@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FiLinkedin, FiDownload, FiMail, FiPhone } from 'react-icons/fi';
 import { TypeAnimation } from 'react-type-animation';
 
-const backgroundImageUrl = 'https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?auto=format&fit=crop&w=1650&q=80';
+const backgroundImageUrl = 'https://unsplash.com/photos/a-modern-library-with-tall-bookshelves-and-windows-1tqb24t3mAw';
 
 const Layout = ({ children }) => {
   const navigate = useNavigate();
