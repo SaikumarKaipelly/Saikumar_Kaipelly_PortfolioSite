@@ -21,30 +21,47 @@ const CustomCursor = () => {
   );
 };
 
-// Updated Layout with Software Development-Themed Video Background
+// Updated Layout with Video Background and Fallback
 const Layout = ({ children, darkMode, toggleTheme }) => {
   const navigate = useNavigate();
   const { scrollY } = useScroll();
-  const opacity = useTransform(scrollY, [0, 300], [0.8, 0.5]); // Adjusted opacity for better visibility
+  const opacity = useTransform(scrollY, [0, 300], [1, 0.7]); // Adjusted for visibility
 
-  // Software development-themed video background (animated code typing)
-  const backgroundVideoUrl = 'https://assets.mixkit.co/videos/preview/mixkit-software-developer-typing-on-a-computer-153-large.mp4';
+  // Software development-themed video (coding animation from Pexels)
+  const backgroundVideoUrl = 'https://videos.pexels.com/video-files/3195395/3195395-hd_1920_1080_24fps.mp4';
+  // Fallback image (code-themed, in case video fails)
+  const fallbackImageUrl = 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1920&auto=format&fit=crop';
 
   return (
     <div className={`min-h-screen font-sans relative ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-black'}`}>
       <CustomCursor />
-      {/* Video Background */}
-      <motion.video
-        className="absolute inset-0 z-0 w-full h-full object-cover" // Ensure it covers the entire screen
-        autoPlay
-        loop
-        muted
-        playsInline // Helps with mobile compatibility
-        style={{ opacity, filter: 'brightness(0.7)' }} // Slightly dimmed for text readability
+      {/* Video Background with Fallback */}
+      <motion.div
+        className="absolute inset-0 z-0 w-full h-full"
+        style={{ opacity }}
       >
-        <source src={backgroundVideoUrl} type="video/mp4" />
-        Your browser does not support the video tag.
-      </motion.video>
+        <video
+          className="w-full h-full object-cover"
+          autoPlay
+          loop
+          muted
+          playsInline
+          style={{ filter: 'brightness(0.8)' }} // Slightly dimmed for text contrast
+          onError={(e) => {
+            e.target.style.display = 'none'; // Hide video if it fails
+            e.target.nextSibling.style.display = 'block'; // Show fallback image
+          }}
+        >
+          <source src={backgroundVideoUrl} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <img
+          src={fallbackImageUrl}
+          alt="Fallback background"
+          className="w-full h-full object-cover"
+          style={{ display: 'none' }} // Hidden unless video fails
+        />
+      </motion.div>
       <header className="fixed top-0 left-0 right-0 z-40 bg-opacity-80 backdrop-blur-md py-4 px-6 flex justify-between items-center">
         <motion.h1
           initial={{ x: -100, opacity: 0 }}
