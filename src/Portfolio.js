@@ -21,36 +21,28 @@ const CustomCursor = () => {
   );
 };
 
-// Updated Layout with Background Image or Video
+// Updated Layout with Video Background
 const Layout = ({ children, darkMode, toggleTheme }) => {
   const navigate = useNavigate();
   const { scrollY } = useScroll();
   const opacity = useTransform(scrollY, [0, 300], [1, 0.5]);
 
-  // Option 1: Background Image (Uncomment this for image)
- // const backgroundImageUrl = 'https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1920&auto=format&fit=crop'; // Stunning mountain landscape
-
-  // Option 2: Background Video (Uncomment this for video)
-  // const backgroundVideoUrl = 'https://assets.mixkit.co/videos/preview/mixkit-stars-in-space-background-1610-large.mp4'; // Cosmic video
+  // Video Background URL (Stunning cosmic starfield)
+  const backgroundVideoUrl = 'https://assets.mixkit.co/videos/preview/mixkit-stars-in-space-background-1610-large.mp4';
 
   return (
     <div className={`min-h-screen font-sans relative ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-black'}`}>
       <CustomCursor />
-      {/* Background Image */}
-      //<motion.div
-       // className="absolute inset-0 z-0 bg-cover bg-center"
-        //style={{ backgroundImage: `url(${backgroundImageUrl})`, opacity }}
-      />
-      {/* Background Video (Uncomment this block and comment the image block above if you want a video) */}
-       <motion.video
+      {/* Video Background */}
+      <motion.video
         className="absolute inset-0 z-0 w-full h-full object-cover"
         autoPlay
         loop
         muted
-        style={{ opacity }
+        style={{ opacity }}
       >
         <source src={backgroundVideoUrl} type="video/mp4" />
-      </motion.video> */}
+      </motion.video>
       <header className="fixed top-0 left-0 right-0 z-40 bg-opacity-80 backdrop-blur-md py-4 px-6 flex justify-between items-center">
         <motion.h1
           initial={{ x: -100, opacity: 0 }}
