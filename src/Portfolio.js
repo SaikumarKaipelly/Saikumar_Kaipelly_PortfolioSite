@@ -197,7 +197,7 @@ const Contact = () => {
         <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="text-green-400 font-semibold text-xl">Thank you! Your message has been sent.</motion.div>
       ) : (
         //<form onSubmit={handleSubmit} className="space-y-6 bg-opacity-20 bg-gray-800 backdrop-blur-lg p-8 rounded-xl shadow-lg border border-gray-700/50">
-        <form action="https://formsubmit.co/saikumar.k@mymailshub.com" method="POST" className="space-y-6 bg-opacity-20 bg-gray-800 backdrop-blur-lg p-8 rounded-xl shadow-lg border border-gray-700/50">
+        <form action="https://formsubmit.co/saikumarkaipelly24@gmail.com" method="POST" className="space-y-6 bg-opacity-20 bg-gray-800 backdrop-blur-lg p-8 rounded-xl shadow-lg border border-gray-700/50">
   <input type="hidden" name="_captcha" value="false" />
   <input type="hidden" name="_next" value="https://saikumar-kaipelly-portfolio-site.vercel.app/contact" />
 
