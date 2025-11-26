@@ -4,33 +4,28 @@ import { motion } from "framer-motion";
 import Tilt from "react-parallax-tilt";
 import { FiMoon, FiSun, FiLinkedin, FiDownload, FiMail, FiPhone } from "react-icons/fi";
 
-/* ----------------------------------
-   BACKGROUND IMAGE (Option A)
-   — CORS SAFE & Works 100% on Vercel
------------------------------------ */
-const BG_IMAGE =
-  "https://cdn.pixabay.com/photo/2015/07/02/09/28/digital-828795_1280.jpg";
+/* -----------------------------------------
+   LOCAL BACKGROUND IMAGE (Always Works)
+-------------------------------------------- */
+const BG_IMAGE = process.env.PUBLIC_URL + "/bg-tech.jpg";
 
-/* ==================================
-        LAYOUT WRAPPER
-================================== */
+/* =========================================
+   LAYOUT WRAPPER (Navbar + Background + Footer)
+========================================= */
 const Layout = ({ children, darkMode, toggleTheme }) => {
   const navigate = useNavigate();
 
   return (
-    <div
-      className={`min-h-screen relative ${
-        darkMode ? "bg-black text-white" : "bg-white text-black"
-      }`}
-    >
+    <div className={`min-h-screen relative ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}>
+      
       {/* Background */}
       <div
-        className="absolute inset-0 bg-cover bg-center opacity-25 blur-sm -z-10"
+        className="absolute inset-0 bg-cover bg-center opacity-30 blur-sm -z-10"
         style={{ backgroundImage: `url(${BG_IMAGE})` }}
       />
 
       {/* NAVBAR */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-black/60 backdrop-blur-lg border-b border-blue-500/20 px-6 py-4 flex justify-between items-center">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-black/60 backdrop-blur-lg border-b border-blue-500/30 px-6 py-4 flex justify-between items-center">
         <h1
           onClick={() => navigate("/")}
           className="text-2xl font-bold text-blue-400 cursor-pointer tracking-wide"
@@ -56,6 +51,7 @@ const Layout = ({ children, darkMode, toggleTheme }) => {
           <a
             href="https://www.linkedin.com/in/saikumarkaipelly"
             target="_blank"
+            rel="noopener noreferrer"
             className="hover:text-blue-400"
           >
             <FiLinkedin size={22} />
@@ -71,7 +67,7 @@ const Layout = ({ children, darkMode, toggleTheme }) => {
         </nav>
       </header>
 
-      {/* MAIN CONTENT */}
+      {/* CONTENT */}
       <main className="pt-28 pb-24 px-4">{children}</main>
 
       {/* FOOTER */}
@@ -82,43 +78,38 @@ const Layout = ({ children, darkMode, toggleTheme }) => {
   );
 };
 
-/* ==================================
-        HOME (H1 — BIG HERO)
-================================== */
+/* =========================================
+   HOME (Premium Hero Section)
+========================================= */
 const Home = () => {
   const navigate = useNavigate();
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 40 }}
+      initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       className="flex flex-col items-center text-center max-w-4xl mx-auto"
     >
-      {/* 3D TILT BOX */}
-      <Tilt tiltMaxAngleX={10} tiltMaxAngleY={10} perspective={900} scale={1.02}>
-        <motion.div
-          className="bg-black/50 backdrop-blur-xl border border-blue-500/30 shadow-2xl rounded-3xl px-10 py-14"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-        >
-          <h1 className="text-5xl md:text-6xl font-extrabold mb-6 leading-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-blue-600 drop-shadow-md">
+      {/* 3D Box */}
+      <Tilt tiltMaxAngleX={8} tiltMaxAngleY={8} scale={1.02}>
+        <motion.div className="bg-black/50 backdrop-blur-xl border border-blue-500/20 shadow-2xl rounded-3xl px-10 py-14">
+          <h1 className="text-5xl md:text-6xl font-extrabold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-blue-600">
             Java Full Stack Developer
           </h1>
 
-          <p className="text-gray-300 text-lg max-w-2xl mx-auto leading-relaxed mb-10">
-            Building secure, scalable, cloud-ready enterprise applications using
-            Spring Boot, React.js, AWS, Azure, Kafka, Docker, Kubernetes, and
-            microservices architectures.
+          <p className="text-gray-300 text-lg max-w-2xl mx-auto mb-8 leading-relaxed">
+            Building secure, scalable enterprise systems using Spring Boot, React.js,
+            AWS, Azure, Kafka, Docker, Kubernetes, and modern microservice patterns.
           </p>
 
-          <div className="flex flex-wrap justify-center gap-4 mt-4">
+          <div className="flex flex-wrap justify-center gap-4">
             {["skills", "experience", "education", "contact"].map((btn) => (
               <motion.button
                 key={btn}
                 onClick={() => navigate(`/${btn}`)}
                 whileHover={{ scale: 1.08 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-6 py-3 rounded-lg bg-blue-600/40 border border-blue-500/30 hover:bg-blue-600/60 shadow-xl"
+                className="px-6 py-3 bg-blue-600/40 border border-blue-500/30 rounded-lg hover:bg-blue-600/60 transition shadow-lg"
               >
                 {btn.charAt(0).toUpperCase() + btn.slice(1)}
               </motion.button>
@@ -130,36 +121,34 @@ const Home = () => {
   );
 };
 
-/* ==================================
-        SKILLS
-================================== */
+/* =========================================
+   SKILLS PAGE
+========================================= */
 const Skills = () => {
   const skills = {
     "Programming Languages": ["C", "C++", "Java", "Python", "SQL", "J2EE"],
-    "Frontend": ["React.js", "Angular", "JavaScript", "TypeScript", "HTML5", "CSS3"],
-    "Backend": ["Spring Boot", "Spring MVC", "REST API", "Hibernate", "JPA"],
-    "Cloud": ["AWS", "Azure"],
-    "Messaging": ["Kafka", "RabbitMQ"],
-    "DevOps": ["Docker", "Kubernetes", "GitHub Actions", "Jenkins", "GitLab"],
-    "Databases": ["PostgreSQL", "MongoDB", "Oracle", "MySQL", "Neo4j"],
+    Frontend: ["React.js", "Angular", "JavaScript", "TypeScript", "HTML5", "CSS3"],
+    Backend: ["Spring Boot", "Spring MVC", "REST API", "Hibernate", "JPA"],
+    Cloud: ["AWS", "Azure"],
+    Messaging: ["Kafka", "RabbitMQ"],
+    DevOps: ["Docker", "Kubernetes", "GitHub Actions", "Jenkins", "GitLab"],
+    Databases: ["PostgreSQL", "MongoDB", "Oracle", "MySQL", "Neo4j"],
   };
 
   return (
     <section className="max-w-5xl mx-auto">
-      <h2 className="text-4xl font-bold text-center text-blue-400 mb-12">
-        Skills
-      </h2>
+      <h2 className="text-4xl font-bold text-center text-blue-400 mb-12">Skills</h2>
 
       <div className="grid md:grid-cols-2 gap-8">
-        {Object.entries(skills).map(([title, items]) => (
+        {Object.entries(skills).map(([category, items]) => (
           <motion.div
-            key={title}
-            initial={{ opacity: 0, y: 25 }}
+            key={category}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="p-6 rounded-2xl bg-black/40 border border-blue-500/20 backdrop-blur-lg shadow-xl"
+            className="p-6 rounded-2xl bg-black/40 border border-blue-500/20 shadow-xl"
           >
-            <h3 className="text-xl font-semibold text-white mb-3">{title}</h3>
+            <h3 className="text-xl font-semibold mb-3">{category}</h3>
             <p className="text-gray-300 text-sm">{items.join(", ")}</p>
           </motion.div>
         ))}
@@ -168,19 +157,19 @@ const Skills = () => {
   );
 };
 
-/* ==================================
-        EXPERIENCE
-================================== */
+/* =========================================
+   EXPERIENCE
+========================================= */
 const Experience = () => {
-  const data = [
+  const jobs = [
     {
       company: "PNC Financial Services, USA",
       role: "Java Full Stack Developer",
       dates: "Jul 2024 – Present",
       bullets: [
-        "Architected Spring Boot microservices reducing API latency by 32%.",
-        "Integrated Kafka pipelines reducing sync failures by 41%.",
-        "Developed React.js dashboards improving efficiency by 28%.",
+        "Architected Spring Boot microservices reducing API latency.",
+        "Integrated Kafka pipelines improving reliability by 40%.",
+        "Developed React.js dashboards improving performance.",
         "Built AWS-native APIs (Lambda, API Gateway, DynamoDB).",
       ],
     },
@@ -189,20 +178,20 @@ const Experience = () => {
       role: "Java Full Stack Developer",
       dates: "2021 – 2023",
       bullets: [
-        "Developed scalable Spring REST APIs with OAuth2 security.",
-        "Improved DB performance by 27% using optimized queries.",
-        "Built React.js UI components and dashboards.",
-        "Developed RabbitMQ flows improving reliability by 40%.",
+        "Developed scalable REST APIs with OAuth2 security.",
+        "Improved SQL performance by 27%.",
+        "Built reusable React components.",
+        "Implemented RabbitMQ message pipelines.",
       ],
     },
     {
       company: "Fusion Software Technologies, India",
-      role: "Junior Full Stack Developer",
+      role: "Junior Developer",
       dates: "2019 – 2021",
       bullets: [
-        "Built Spring MVC modules reducing response times.",
-        "Created Angular UI features with reusable components.",
-        "Containerized workloads using Docker and Azure.",
+        "Developed Spring MVC modules.",
+        "Built Angular UI components.",
+        "Containerized systems using Docker + Azure.",
       ],
     },
   ];
@@ -213,23 +202,22 @@ const Experience = () => {
         Professional Experience
       </h2>
 
-      <div className="space-y-10">
-        {data.map((job, i) => (
+      <div className="space-y-8">
+        {jobs.map((job, index) => (
           <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 25 }}
+            key={index}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="p-6 rounded-2xl bg-black/40 border border-blue-500/20 backdrop-blur-lg shadow-xl"
+            className="p-6 rounded-2xl bg-black/40 border border-blue-500/20 shadow-xl"
           >
-            <h3 className="text-2xl font-bold text-blue-300">{job.company}</h3>
+            <h3 className="text-2xl font-bold">{job.company}</h3>
             <p className="text-gray-300 italic">
               {job.role} | {job.dates}
             </p>
-
-            <ul className="list-disc pl-6 mt-3 space-y-2 text-gray-300 text-sm">
-              {job.bullets.map((b, j) => (
-                <li key={j}>{b}</li>
+            <ul className="list-disc pl-6 text-gray-300 mt-3 space-y-2 text-sm">
+              {job.bullets.map((point, idx) => (
+                <li key={idx}>{point}</li>
               ))}
             </ul>
           </motion.div>
@@ -239,132 +227,108 @@ const Experience = () => {
   );
 };
 
-/* ==================================
-        EDUCATION
-================================== */
+/* =========================================
+   EDUCATION
+========================================= */
 const Education = () => (
   <section className="max-w-3xl mx-auto text-center">
     <h2 className="text-4xl font-bold text-blue-400 mb-12">Education</h2>
 
-    <motion.div
-      initial={{ opacity: 0, y: 25 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      className="p-8 rounded-2xl bg-black/40 border border-blue-500/20 backdrop-blur-lg shadow-xl"
-    >
+    <div className="p-8 rounded-2xl bg-black/40 border border-blue-500/20 shadow-xl">
       <h3 className="text-2xl font-semibold">University of Central Missouri</h3>
       <p className="text-gray-300 text-lg mt-2">
         Master of Science in Computer Science
       </p>
       <p className="text-blue-400 text-sm mt-1">Graduated: December 2024</p>
-    </motion.div>
-  </section>
-);
-
-/* ==================================
-        CONTACT (WORKING FORM)
-================================== */
-const Contact = () => (
-  <section className="max-w-xl mx-auto text-center">
-    <h2 className="text-4xl font-bold text-blue-400 mb-12">Contact Me</h2>
-
-    <form
-      action="https://formsubmit.co/saikumarkaipelly24@gmail.com"
-      method="POST"
-      className="p-8 rounded-2xl bg-black/40 border border-blue-500/20 backdrop-blur-lg shadow-xl space-y-6"
-    >
-      <input type="hidden" name="_captcha" value="false" />
-      <input type="hidden" name="_subject" value="New Portfolio Contact Message" />
-      <input type="hidden" name="_template" value="table" />
-
-      <input
-        className="w-full p-3 rounded bg-black/60 border border-blue-500/30 text-white"
-        placeholder="Your Name"
-        name="name"
-        required
-      />
-
-      <input
-        className="w-full p-3 rounded bg-black/60 border border-blue-500/30 text-white"
-        placeholder="Your Email"
-        name="email"
-        type="email"
-        required
-      />
-
-      <textarea
-        className="w-full p-3 rounded bg-black/60 border border-blue-500/30 text-white"
-        rows="5"
-        placeholder="Your Message"
-        name="message"
-        required
-      />
-
-      <button className="w-full py-3 rounded bg-blue-600/40 border border-blue-500/40 hover:bg-blue-600/60 text-white font-semibold transition">
-        Send Message
-      </button>
-    </form>
-
-    <div className="mt-6 text-gray-300 text-sm">
-      <p>
-        <FiMail className="inline mr-1" /> saikumarkaipelly24@gmail.com
-      </p>
-      <p>
-        <FiPhone className="inline mr-1" /> 816-352-4575
-      </p>
     </div>
   </section>
 );
 
-/* ==================================
-        MAIN APP
-================================== */
+/* =========================================
+   CONTACT (USES BACKEND EMAIL)
+========================================= */
+const Contact = () => {
+  const [status, setStatus] = useState("");
+
+  const sendForm = async (e) => {
+    e.preventDefault();
+    setStatus("sending");
+
+    const formData = {
+      name: e.target.name.value,
+      email: e.target.email.value,
+      message: e.target.message.value,
+    };
+
+    const res = await fetch("/api/sendEmail", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
+
+    if (res.ok) setStatus("sent");
+    else setStatus("error");
+  };
+
+  return (
+    <section className="max-w-xl mx-auto text-center">
+      <h2 className="text-4xl font-bold text-blue-400 mb-12">Contact Me</h2>
+
+      <form
+        onSubmit={sendForm}
+        className="p-8 rounded-2xl bg-black/40 border border-blue-500/20 shadow-xl space-y-6"
+      >
+        <input
+          name="name"
+          placeholder="Your Name"
+          className="w-full p-3 bg-black/60 border border-blue-500/30 rounded text-white"
+          required
+        />
+        <input
+          name="email"
+          type="email"
+          placeholder="Your Email"
+          className="w-full p-3 bg-black/60 border border-blue-500/30 rounded text-white"
+          required
+        />
+        <textarea
+          name="message"
+          placeholder="Your Message"
+          rows="5"
+          className="w-full p-3 bg-black/60 border border-blue-500/30 rounded text-white"
+          required
+        />
+        <button className="w-full py-3 bg-blue-600/40 border border-blue-500/40 rounded text-white hover:bg-blue-600/60">
+          Send Message
+        </button>
+
+        {status === "sending" && <p className="text-blue-300 mt-2">Sending...</p>}
+        {status === "sent" && <p className="text-green-400 mt-2">Message Sent ✔</p>}
+        {status === "error" && <p className="text-red-400 mt-2">Error sending message</p>}
+      </form>
+
+      <div className="mt-6 text-gray-300 text-sm">
+        <p><FiMail className="inline mr-1" /> saikumarkaipelly24@gmail.com</p>
+        <p><FiPhone className="inline mr-1" /> 816-352-4575</p>
+      </div>
+    </section>
+  );
+};
+
+/* =========================================
+   MAIN APP
+========================================= */
 export default function App() {
   const [darkMode, setDarkMode] = useState(true);
 
   return (
     <Router>
       <Routes>
-        <Route
-          path="/"
-          element={
-            <Layout darkMode={darkMode} toggleTheme={() => setDarkMode(!darkMode)}>
-              <Home />
-            </Layout>
-          }
-        />
-        <Route
-          path="/skills"
-          element={
-            <Layout darkMode={darkMode} toggleTheme={() => setDarkMode(!darkMode)}>
-              <Skills />
-            </Layout>
-          }
-        />
-        <Route
-          path="/experience"
-          element={
-            <Layout darkMode={darkMode} toggleTheme={() => setDarkMode(!darkMode)}>
-              <Experience />
-            </Layout>
-          }
-        />
-        <Route
-          path="/education"
-          element={
-            <Layout darkMode={darkMode} toggleTheme={() => setDarkMode(!darkMode)}>
-              <Education />
-            </Layout>
-          }
-        />
-        <Route
-          path="/contact"
-          element={
-            <Layout darkMode={darkMode} toggleTheme={() => setDarkMode(!darkMode)}>
-              <Contact />
-            </Layout>
-          }
-        />
+        <Route path="/" element={<Layout darkMode={darkMode} toggleTheme={() => setDarkMode(!darkMode)}><Home /></Layout>} />
+        <Route path="/skills" element={<Layout darkMode={darkMode} toggleTheme={() => setDarkMode(!darkMode)}><Skills /></Layout>} />
+        <Route path="/experience" element={<Layout darkMode={darkMode} toggleTheme={() => setDarkMode(!darkMode)}><Experience /></Layout>} />
+        <Route path="/education" element={<Layout darkMode={darkMode} toggleTheme={() => setDarkMode(!darkMode)}><Education /></Layout>} />
+        <Route path="/contact" element={<Layout darkMode={darkMode} toggleTheme={() => setDarkMode(!darkMode)}><Contact /></Layout>} />
       </Routes>
     </Router>
   );
