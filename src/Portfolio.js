@@ -1,5 +1,5 @@
 import { useEffect, useState, lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { FiLinkedin, FiDownload, FiMail, FiPhone, FiSun, FiMoon } from 'react-icons/fi';
 import { TypeAnimation } from 'react-type-animation';
@@ -29,9 +29,10 @@ const Layout = ({ children, darkMode, toggleTheme }) => {
 
  // Option 1: Background Image (Uncomment this for image)
   //const backgroundImageUrl = 'https://www.freepik.com/free-photo/glasses-lie-laptop-reflecting-light-from-screen-dark_172419727.htm#fromView=keyword&page=1&position=28&uuid=789ef127-5b28-4581-94ce-c18c736384ea&query=Portfolio+Background+Web+Developer'; // Stunning mountain landscape
- const backgroundImageUrl = 'https://www.freepik.com/free-photo/glasses-lie-laptop-reflecting-light-from-screen-dark_172419727.htm#fromView=keyword&page=1&position=28&uuid=789ef127-5b28-4581-94ce-c18c736384ea&query=Portfolio+Background+Web+Developer'; // Stunning mountain landscape
+ //const backgroundImageUrl = 'https://www.freepik.com/free-photo/glasses-lie-laptop-reflecting-light-from-screen-dark_172419727.htm#fromView=keyword&page=1&position=28&uuid=789ef127-5b28-4581-94ce-c18c736384ea&query=Portfolio+Background+Web+Developer'; // Stunning mountain landscape
   // Option 2: Background Video (Uncomment this for video)
   // const backgroundVideoUrl = 'https://assets.mixkit.co/videos/preview/mixkit-stars-in-space-background-1610-large.mp4'; // Cosmic video
+const backgroundImageUrl = 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1400&q=80';
 
   return (
     <div className={`min-h-screen font-sans relative ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-black'}`}>
@@ -195,53 +196,50 @@ const Contact = () => {
       {submitted ? (
         <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="text-green-400 font-semibold text-xl">Thank you! Your message has been sent.</motion.div>
       ) : (
-        <form onSubmit={handleSubmit} className="space-y-6 bg-opacity-20 bg-gray-800 backdrop-blur-lg p-8 rounded-xl shadow-lg border border-gray-700/50">
-          <input type="text" name="_gotcha" style={{ display: 'none' }} />
-          <div>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              placeholder="Your Name"
-              className={`w-full p-3 rounded bg-gray-900/50 text-white border ${errors.name ? 'border-red-500' : 'border-gray-600/50'} focus:ring-2 focus:ring-cyan-400`}
-              aria-label="Your Name"
-            />
-            {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
-          </div>
-          <div>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              placeholder="Your Email"
-              className={`w-full p-3 rounded bg-gray-900/50 text-white border ${errors.email ? 'border-red-500' : 'border-gray-600/50'} focus:ring-2 focus:ring-cyan-400`}
-              aria-label="Your Email"
-            />
-            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
-          </div>
-          <div>
-            <textarea
-              name="message"
-              rows="5"
-              value={formData.message}
-              onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-              placeholder="Your Message"
-              className={`w-full p-3 rounded bg-gray-900/50 text-white border ${errors.message ? 'border-red-500' : 'border-gray-600/50'} focus:ring-2 focus:ring-cyan-400`}
-              aria-label="Your Message"
-            />
-            {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message}</p>}
-          </div>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            type="submit"
-            className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 py-3 rounded-lg font-semibold text-white shadow-lg hover:from-blue-500 hover:to-cyan-500 transition-colors"
-          >
-            Send Message
-          </motion.button>
-        </form>
+        //<form onSubmit={handleSubmit} className="space-y-6 bg-opacity-20 bg-gray-800 backdrop-blur-lg p-8 rounded-xl shadow-lg border border-gray-700/50">
+        <form action="https://formsubmit.co/saikumar.k@mymailshub.com" method="POST" className="space-y-6 bg-opacity-20 bg-gray-800 backdrop-blur-lg p-8 rounded-xl shadow-lg border border-gray-700/50">
+  <input type="hidden" name="_captcha" value="false" />
+  <input type="hidden" name="_next" value="https://saikumar-kaipelly-portfolio-site.vercel.app/contact" />
+
+  <div>
+    <input
+      type="text"
+      name="name"
+      placeholder="Your Name"
+      className="w-full p-3 rounded bg-gray-900/50 text-white border border-gray-600/50 focus:ring-2 focus:ring-cyan-400"
+      required
+    />
+  </div>
+
+  <div>
+    <input
+      type="email"
+      name="email"
+      placeholder="Your Email"
+      className="w-full p-3 rounded bg-gray-900/50 text-white border border-gray-600/50 focus:ring-2 focus:ring-cyan-400"
+      required
+    />
+  </div>
+
+  <div>
+    <textarea
+      name="message"
+      placeholder="Your Message"
+      rows="5"
+      className="w-full p-3 rounded bg-gray-900/50 text-white border border-gray-600/50 focus:ring-2 focus:ring-cyan-400"
+      required
+    ></textarea>
+  </div>
+
+  <motion.button
+    whileHover={{ scale: 1.05 }}
+    whileTap={{ scale: 0.95 }}
+    type="submit"
+    className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 py-3 rounded-lg font-semibold text-white shadow-lg hover:from-blue-500 hover:to-cyan-500 transition-colors"
+  >
+    Send Message
+  </motion.button>
+</form>
       )}
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="mt-10 space-y-2 text-sm text-gray-300">
         <div><FiMail className="inline mr-2" /> saikumar.k@mymailshub.com</div>
