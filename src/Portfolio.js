@@ -5,12 +5,12 @@ import Tilt from "react-parallax-tilt";
 import { FiMoon, FiSun, FiLinkedin, FiDownload, FiMail, FiPhone } from "react-icons/fi";
 
 /* -----------------------------------------
-   LOCAL BACKGROUND IMAGE (Always Works)
+   LOCAL BACKGROUND IMAGE
 -------------------------------------------- */
 const BG_IMAGE = process.env.PUBLIC_URL + "/bg-tech.jpg";
 
 /* =========================================
-   LAYOUT WRAPPER (Navbar + Background + Footer)
+   LAYOUT WRAPPER
 ========================================= */
 const Layout = ({ children, darkMode, toggleTheme }) => {
   const navigate = useNavigate();
@@ -79,7 +79,7 @@ const Layout = ({ children, darkMode, toggleTheme }) => {
 };
 
 /* =========================================
-   HOME (Premium Hero Section)
+   HOME PAGE
 ========================================= */
 const Home = () => {
   const navigate = useNavigate();
@@ -90,7 +90,6 @@ const Home = () => {
       animate={{ opacity: 1, y: 0 }}
       className="flex flex-col items-center text-center max-w-4xl mx-auto"
     >
-      {/* 3D Box */}
       <Tilt tiltMaxAngleX={8} tiltMaxAngleY={8} scale={1.02}>
         <motion.div className="bg-black/50 backdrop-blur-xl border border-blue-500/20 shadow-2xl rounded-3xl px-10 py-14">
           <h1 className="text-5xl md:text-6xl font-extrabold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-blue-600">
@@ -122,7 +121,7 @@ const Home = () => {
 };
 
 /* =========================================
-   SKILLS PAGE
+   SKILLS
 ========================================= */
 const Skills = () => {
   const skills = {
@@ -168,9 +167,9 @@ const Experience = () => {
       dates: "Jul 2024 – Present",
       bullets: [
         "Architected Spring Boot microservices reducing API latency.",
-        "Integrated Kafka pipelines improving reliability by 40%.",
-        "Developed React.js dashboards improving performance.",
-        "Built AWS-native APIs (Lambda, API Gateway, DynamoDB).",
+        "Developed React.js dashboards improving UX speed.",
+        "Integrated Kafka event-driven pipelines improving reliability.",
+        "Built AWS-native Lambda + API Gateway microservices.",
       ],
     },
     {
@@ -178,10 +177,10 @@ const Experience = () => {
       role: "Java Full Stack Developer",
       dates: "2021 – 2023",
       bullets: [
-        "Developed scalable REST APIs with OAuth2 security.",
+        "Built scalable REST APIs with OAuth2 security.",
         "Improved SQL performance by 27%.",
-        "Built reusable React components.",
-        "Implemented RabbitMQ message pipelines.",
+        "Developed Angular UI dashboards.",
+        "Implemented RabbitMQ message workflows.",
       ],
     },
     {
@@ -190,8 +189,8 @@ const Experience = () => {
       dates: "2019 – 2021",
       bullets: [
         "Developed Spring MVC modules.",
-        "Built Angular UI components.",
-        "Containerized systems using Docker + Azure.",
+        "Developed Angular components.",
+        "Containerized apps using Docker + Azure.",
       ],
     },
   ];
@@ -245,45 +244,34 @@ const Education = () => (
 );
 
 /* =========================================
-   CONTACT (USES BACKEND EMAIL)
+   CONTACT (FormSubmit)
 ========================================= */
 const Contact = () => {
-  const [status, setStatus] = useState("");
-
-  const sendForm = async (e) => {
-    e.preventDefault();
-    setStatus("sending");
-
-    const formData = {
-      name: e.target.name.value,
-      email: e.target.email.value,
-      message: e.target.message.value,
-    };
-
-    const res = await fetch("/api/sendEmail", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    });
-
-    if (res.ok) setStatus("sent");
-    else setStatus("error");
-  };
+  const query = new URLSearchParams(window.location.search);
+  const success = query.get("success");
 
   return (
     <section className="max-w-xl mx-auto text-center">
       <h2 className="text-4xl font-bold text-blue-400 mb-12">Contact Me</h2>
 
       <form
-        onSubmit={sendForm}
+        action="https://formsubmit.co/saikumarkaipelly24@gmail.com"
+        method="POST"
         className="p-8 rounded-2xl bg-black/40 border border-blue-500/20 shadow-xl space-y-6"
       >
+        <input type="hidden" name="_captcha" value="false" />
+        <input type="hidden" name="_template" value="box" />
+        <input type="hidden" name="_subject" value="New Portfolio Contact Message" />
+        <input type="hidden" name="_autoresponse" value="Thank you for contacting me." />
+        <input type="hidden" name="_next" value="https://saikumar-kaipelly-portfolio-site.vercel.app/#/contact?success=true" />
+
         <input
           name="name"
           placeholder="Your Name"
           className="w-full p-3 bg-black/60 border border-blue-500/30 rounded text-white"
           required
         />
+
         <input
           name="email"
           type="email"
@@ -291,6 +279,7 @@ const Contact = () => {
           className="w-full p-3 bg-black/60 border border-blue-500/30 rounded text-white"
           required
         />
+
         <textarea
           name="message"
           placeholder="Your Message"
@@ -298,14 +287,17 @@ const Contact = () => {
           className="w-full p-3 bg-black/60 border border-blue-500/30 rounded text-white"
           required
         />
+
         <button className="w-full py-3 bg-blue-600/40 border border-blue-500/40 rounded text-white hover:bg-blue-600/60">
           Send Message
         </button>
-
-        {status === "sending" && <p className="text-blue-300 mt-2">Sending...</p>}
-        {status === "sent" && <p className="text-green-400 mt-2">Message Sent ✔</p>}
-        {status === "error" && <p className="text-red-400 mt-2">Error sending message</p>}
       </form>
+
+      {success && (
+        <p className="text-green-400 mt-4 font-semibold">
+          Message sent successfully ✔
+        </p>
+      )}
 
       <div className="mt-6 text-gray-300 text-sm">
         <p><FiMail className="inline mr-1" /> saikumarkaipelly24@gmail.com</p>
