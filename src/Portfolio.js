@@ -1,64 +1,66 @@
-import { useEffect, useState, Suspense, lazy } from "react";
+import { useState } from "react";
 import { HashRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { FiLinkedin, FiDownload, FiSun, FiMoon, FiMail, FiPhone } from "react-icons/fi";
-import { TypeAnimation } from "react-type-animation";
+import Tilt from "react-parallax-tilt";
+import { FiMoon, FiSun, FiLinkedin, FiDownload, FiMail, FiPhone } from "react-icons/fi";
 
 /* ----------------------------------
-   Background Image (C4 - Ultra Subtle Tech Blur)
+   BACKGROUND IMAGE (Option A)
+   — CORS SAFE & Works 100% on Vercel
 ----------------------------------- */
-const backgroundImageUrl =
-  "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1600&q=20";
+const BG_IMAGE =
+  "https://cdn.pixabay.com/photo/2015/07/02/09/28/digital-828795_1280.jpg";
 
-/* ----------------------------------
-   Layout Component
------------------------------------ */
+/* ==================================
+        LAYOUT WRAPPER
+================================== */
 const Layout = ({ children, darkMode, toggleTheme }) => {
   const navigate = useNavigate();
 
   return (
-    <div className={`min-h-screen ${darkMode ? "bg-[#0a0a0a] text-white" : "bg-white text-black"} relative`}>
-      {/* Blurred Tech Background */}
+    <div
+      className={`min-h-screen relative ${
+        darkMode ? "bg-black text-white" : "bg-white text-black"
+      }`}
+    >
+      {/* Background */}
       <div
-        className="absolute inset-0 bg-cover bg-center opacity-20 blur-sm -z-10"
-        style={{ backgroundImage: `url(${backgroundImageUrl})` }}
+        className="absolute inset-0 bg-cover bg-center opacity-25 blur-sm -z-10"
+        style={{ backgroundImage: `url(${BG_IMAGE})` }}
       />
 
-      {/* HEADER */}
-      <header className="fixed top-0 left-0 right-0 z-40 bg-black/70 backdrop-blur-lg border-b border-blue-500/20 py-4 px-6 flex justify-between items-center">
+      {/* NAVBAR */}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-black/60 backdrop-blur-lg border-b border-blue-500/20 px-6 py-4 flex justify-between items-center">
         <h1
           onClick={() => navigate("/")}
-          className="text-xl md:text-2xl font-bold text-blue-400 cursor-pointer"
+          className="text-2xl font-bold text-blue-400 cursor-pointer tracking-wide"
         >
           Sai Kumar Kaipelly
         </h1>
 
-        <nav className="flex gap-6 items-center text-sm">
-          {["skills", "experience", "education", "contact"].map((item) => (
+        <nav className="flex items-center gap-6 text-sm">
+          {["skills", "experience", "education", "contact"].map((link) => (
             <button
-              key={item}
-              onClick={() => navigate(`/${item}`)}
+              key={link}
+              onClick={() => navigate(`/${link}`)}
               className="hover:text-blue-400 transition"
             >
-              {item.charAt(0).toUpperCase() + item.slice(1)}
+              {link.charAt(0).toUpperCase() + link.slice(1)}
             </button>
           ))}
 
-          {/* THEME SWITCH */}
           <button onClick={toggleTheme} className="hover:text-blue-400">
-            {darkMode ? <FiSun size={18} /> : <FiMoon size={18} />}
+            {darkMode ? <FiSun size={20} /> : <FiMoon size={20} />}
           </button>
 
-          {/* LINKEDIN */}
           <a
             href="https://www.linkedin.com/in/saikumarkaipelly"
             target="_blank"
             className="hover:text-blue-400"
           >
-            <FiLinkedin size={20} />
+            <FiLinkedin size={22} />
           </a>
 
-          {/* RESUME */}
           <a
             href="/Sai_Kumar_Kaipelly_Java_Full_Stack_Developer.pdf"
             download
@@ -70,7 +72,7 @@ const Layout = ({ children, darkMode, toggleTheme }) => {
       </header>
 
       {/* MAIN CONTENT */}
-      <main className="pt-24 pb-20 px-4">{children}</main>
+      <main className="pt-28 pb-24 px-4">{children}</main>
 
       {/* FOOTER */}
       <footer className="text-center py-6 text-gray-400 text-xs border-t border-blue-500/20">
@@ -80,81 +82,84 @@ const Layout = ({ children, darkMode, toggleTheme }) => {
   );
 };
 
-/* ----------------------------------
-   HOME PAGE
------------------------------------ */
+/* ==================================
+        HOME (H1 — BIG HERO)
+================================== */
 const Home = () => {
   const navigate = useNavigate();
 
   return (
-    <motion.section initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center max-w-4xl mx-auto">
-      <h1 className="text-4xl md:text-5xl font-extrabold mb-4 text-blue-400">
-        <TypeAnimation
-          sequence={[
-            "Java Full Stack Developer",
-            2000,
-            "Cloud Engineer",
-            2000,
-            "Software Engineer",
-            2000,
-          ]}
-          wrapper="span"
-          speed={40}
-          repeat={Infinity}
-        />
-      </h1>
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="flex flex-col items-center text-center max-w-4xl mx-auto"
+    >
+      {/* 3D TILT BOX */}
+      <Tilt tiltMaxAngleX={10} tiltMaxAngleY={10} perspective={900} scale={1.02}>
+        <motion.div
+          className="bg-black/50 backdrop-blur-xl border border-blue-500/30 shadow-2xl rounded-3xl px-10 py-14"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+        >
+          <h1 className="text-5xl md:text-6xl font-extrabold mb-6 leading-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-blue-600 drop-shadow-md">
+            Java Full Stack Developer
+          </h1>
 
-      <p className="text-gray-300 text-lg leading-relaxed mb-10">
-        Java Full Stack Developer with 5+ years of experience building secure, scalable and cloud-native enterprise
-        software using Spring Boot, React.js, Angular, AWS, Azure, Kafka, RabbitMQ, Docker, Kubernetes & CI/CD automation.
-      </p>
+          <p className="text-gray-300 text-lg max-w-2xl mx-auto leading-relaxed mb-10">
+            Building secure, scalable, cloud-ready enterprise applications using
+            Spring Boot, React.js, AWS, Azure, Kafka, Docker, Kubernetes, and
+            microservices architectures.
+          </p>
 
-      <div className="flex flex-wrap justify-center gap-4">
-        {["skills", "experience", "education", "contact"].map((btn) => (
-          <button
-            key={btn}
-            onClick={() => navigate(`/${btn}`)}
-            className="px-6 py-2 bg-blue-600/30 hover:bg-blue-600/50 border border-blue-400/40 text-white rounded-lg transition"
-          >
-            {btn.charAt(0).toUpperCase() + btn.slice(1)}
-          </button>
-        ))}
-      </div>
-    </motion.section>
+          <div className="flex flex-wrap justify-center gap-4 mt-4">
+            {["skills", "experience", "education", "contact"].map((btn) => (
+              <motion.button
+                key={btn}
+                onClick={() => navigate(`/${btn}`)}
+                whileHover={{ scale: 1.08 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-6 py-3 rounded-lg bg-blue-600/40 border border-blue-500/30 hover:bg-blue-600/60 shadow-xl"
+              >
+                {btn.charAt(0).toUpperCase() + btn.slice(1)}
+              </motion.button>
+            ))}
+          </div>
+        </motion.div>
+      </Tilt>
+    </motion.div>
   );
 };
 
-/* ----------------------------------
-   SKILLS
------------------------------------ */
+/* ==================================
+        SKILLS
+================================== */
 const Skills = () => {
   const skills = {
-    "Programming Languages": ["C", "C++", "Java", "Python", "J2EE", "SQL", "PL/SQL"],
-    Frontend: ["HTML5", "CSS3", "JavaScript", "TypeScript", "React.js", "Redux", "Angular"],
-    Backend: ["Spring Boot", "Spring MVC", "Spring REST", "Spring Cloud", "Hibernate", "JPA"],
-    Security: ["Spring Security", "OAuth2.0", "JWT"],
-    Databases: ["MySQL", "PostgreSQL", "Oracle", "MongoDB", "Neo4j", "Firebase"],
-    Messaging: ["Kafka", "RabbitMQ", "JMS"],
-    Cloud: ["AWS", "Azure"],
-    "CI/CD": ["GitHub Actions", "GitLab", "Jenkins", "Docker", "Kubernetes"],
-    Testing: ["JUnit", "Mockito", "React Testing Library"],
-    "AI Tools": ["GitHub Copilot", "ChatGPT API Integration"],
+    "Programming Languages": ["C", "C++", "Java", "Python", "SQL", "J2EE"],
+    "Frontend": ["React.js", "Angular", "JavaScript", "TypeScript", "HTML5", "CSS3"],
+    "Backend": ["Spring Boot", "Spring MVC", "REST API", "Hibernate", "JPA"],
+    "Cloud": ["AWS", "Azure"],
+    "Messaging": ["Kafka", "RabbitMQ"],
+    "DevOps": ["Docker", "Kubernetes", "GitHub Actions", "Jenkins", "GitLab"],
+    "Databases": ["PostgreSQL", "MongoDB", "Oracle", "MySQL", "Neo4j"],
   };
 
   return (
-    <section className="max-w-5xl mx-auto py-16">
-      <h2 className="text-4xl font-bold text-center text-blue-400 mb-10">Skills</h2>
+    <section className="max-w-5xl mx-auto">
+      <h2 className="text-4xl font-bold text-center text-blue-400 mb-12">
+        Skills
+      </h2>
 
       <div className="grid md:grid-cols-2 gap-8">
-        {Object.entries(skills).map(([cat, items]) => (
+        {Object.entries(skills).map(([title, items]) => (
           <motion.div
-            key={cat}
+            key={title}
             initial={{ opacity: 0, y: 25 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="bg-black/40 backdrop-blur-lg p-6 rounded-xl border border-blue-500/20 shadow-lg"
+            className="p-6 rounded-2xl bg-black/40 border border-blue-500/20 backdrop-blur-lg shadow-xl"
           >
-            <h3 className="text-xl font-semibold mb-3 text-white">{cat}</h3>
+            <h3 className="text-xl font-semibold text-white mb-3">{title}</h3>
             <p className="text-gray-300 text-sm">{items.join(", ")}</p>
           </motion.div>
         ))}
@@ -163,72 +168,68 @@ const Skills = () => {
   );
 };
 
-/* ----------------------------------
-   EXPERIENCE
------------------------------------ */
+/* ==================================
+        EXPERIENCE
+================================== */
 const Experience = () => {
-  const exp = [
+  const data = [
     {
       company: "PNC Financial Services, USA",
       role: "Java Full Stack Developer",
-      dates: "July 2024 – Present",
+      dates: "Jul 2024 – Present",
       bullets: [
-        "Architected Spring Boot & Spring MVC microservices improving API latency by 32%.",
-        "Developed Kafka pipelines reducing inter-service failures by 41%.",
-        "Built React.js interfaces improving workflow speed by 28%.",
-        "Developed AWS-native APIs using API Gateway, DynamoDB, CloudFormation.",
-        "Integrated Neo4j graph models reducing fraud false-positives by 19%.",
-        "Implemented CI/CD using GitHub Actions + automated testing pipelines.",
+        "Architected Spring Boot microservices reducing API latency by 32%.",
+        "Integrated Kafka pipelines reducing sync failures by 41%.",
+        "Developed React.js dashboards improving efficiency by 28%.",
+        "Built AWS-native APIs (Lambda, API Gateway, DynamoDB).",
       ],
     },
     {
       company: "Zensar Technologies, India",
       role: "Java Full Stack Developer",
-      dates: "June 2021 – June 2023",
+      dates: "2021 – 2023",
       bullets: [
-        "Created Spring REST microservices improving DB performance by 27%.",
-        "Implemented OAuth2 RBAC reducing unauthorized access by 35%.",
-        "Built React.js dashboards improving user efficiency by 22%.",
-        "Created RabbitMQ pipelines improving message reliability by 40%.",
-        "Deployed apps on AWS Lambda & EC2 reducing incident time by 30%.",
-        "Containerized workloads using Kubernetes + GitLab pipelines.",
+        "Developed scalable Spring REST APIs with OAuth2 security.",
+        "Improved DB performance by 27% using optimized queries.",
+        "Built React.js UI components and dashboards.",
+        "Developed RabbitMQ flows improving reliability by 40%.",
       ],
     },
     {
       company: "Fusion Software Technologies, India",
-      role: "Junior Java Full Stack Developer",
-      dates: "July 2019 – May 2021",
+      role: "Junior Full Stack Developer",
+      dates: "2019 – 2021",
       bullets: [
-        "Developed Spring MVC / Hibernate modules improving query speed by 18%.",
-        "Created Angular components reducing UI bugs.",
-        "Built JMS handlers reducing retry rates by 25%.",
-        "Containerized apps using Docker & deployed to Azure.",
-        "Implemented TDD raising test coverage above 75%.",
+        "Built Spring MVC modules reducing response times.",
+        "Created Angular UI features with reusable components.",
+        "Containerized workloads using Docker and Azure.",
       ],
     },
   ];
 
   return (
-    <section className="max-w-5xl mx-auto py-16">
-      <h2 className="text-4xl font-bold text-center text-blue-400 mb-10">Professional Experience</h2>
+    <section className="max-w-5xl mx-auto">
+      <h2 className="text-4xl font-bold text-center text-blue-400 mb-12">
+        Professional Experience
+      </h2>
 
       <div className="space-y-10">
-        {exp.map((job, idx) => (
+        {data.map((job, i) => (
           <motion.div
-            key={idx}
+            key={i}
             initial={{ opacity: 0, y: 25 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="bg-black/40 backdrop-blur-lg p-6 rounded-xl border border-blue-500/20 shadow-lg"
+            className="p-6 rounded-2xl bg-black/40 border border-blue-500/20 backdrop-blur-lg shadow-xl"
           >
             <h3 className="text-2xl font-bold text-blue-300">{job.company}</h3>
             <p className="text-gray-300 italic">
               {job.role} | {job.dates}
             </p>
 
-            <ul className="list-disc pl-6 mt-3 text-gray-300 space-y-2 text-sm">
-              {job.bullets.map((b, i) => (
-                <li key={i}>{b}</li>
+            <ul className="list-disc pl-6 mt-3 space-y-2 text-gray-300 text-sm">
+              {job.bullets.map((b, j) => (
+                <li key={j}>{b}</li>
               ))}
             </ul>
           </motion.div>
@@ -238,116 +239,133 @@ const Experience = () => {
   );
 };
 
-/* ----------------------------------
-   EDUCATION
------------------------------------ */
+/* ==================================
+        EDUCATION
+================================== */
 const Education = () => (
-  <section className="max-w-3xl mx-auto py-16 text-center">
-    <h2 className="text-4xl font-bold text-blue-400 mb-10">Education</h2>
+  <section className="max-w-3xl mx-auto text-center">
+    <h2 className="text-4xl font-bold text-blue-400 mb-12">Education</h2>
 
     <motion.div
       initial={{ opacity: 0, y: 25 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="bg-black/40 backdrop-blur-lg p-8 rounded-xl border border-blue-500/20 shadow-lg"
+      className="p-8 rounded-2xl bg-black/40 border border-blue-500/20 backdrop-blur-lg shadow-xl"
     >
-      <h3 className="text-2xl font-semibold text-white">University of Central Missouri</h3>
-      <p className="text-gray-300 text-lg mt-2">Master of Science in Computer Science</p>
+      <h3 className="text-2xl font-semibold">University of Central Missouri</h3>
+      <p className="text-gray-300 text-lg mt-2">
+        Master of Science in Computer Science
+      </p>
       <p className="text-blue-400 text-sm mt-1">Graduated: December 2024</p>
     </motion.div>
   </section>
 );
 
-/* ----------------------------------
-   CONTACT — FULLY WORKING FORM USING FORMSUBMIT + GMAIL
------------------------------------ */
-const Contact = () => {
-  return (
-    <section className="max-w-xl mx-auto py-16 text-center">
-      <h2 className="text-4xl font-bold text-blue-400 mb-10">Contact Me</h2>
+/* ==================================
+        CONTACT (WORKING FORM)
+================================== */
+const Contact = () => (
+  <section className="max-w-xl mx-auto text-center">
+    <h2 className="text-4xl font-bold text-blue-400 mb-12">Contact Me</h2>
 
-      <form
-        action="https://formsubmit.co/saikumarkaipelly24@gmail.com"
-        method="POST"
-        className="space-y-6 bg-black/40 backdrop-blur-lg p-8 rounded-xl border border-blue-500/20"
-      >
-        {/* REQUIRED Hidden Inputs */}
-        <input type="hidden" name="_captcha" value="false" />
-        <input type="hidden" name="_subject" value="New Portfolio Contact Message" />
-        <input type="hidden" name="_template" value="table" />
+    <form
+      action="https://formsubmit.co/saikumarkaipelly24@gmail.com"
+      method="POST"
+      className="p-8 rounded-2xl bg-black/40 border border-blue-500/20 backdrop-blur-lg shadow-xl space-y-6"
+    >
+      <input type="hidden" name="_captcha" value="false" />
+      <input type="hidden" name="_subject" value="New Portfolio Contact Message" />
+      <input type="hidden" name="_template" value="table" />
 
-        <input
-          name="name"
-          required
-          placeholder="Your Name"
-          className="w-full p-3 bg-black/60 text-white border border-blue-500/30 rounded"
-        />
+      <input
+        className="w-full p-3 rounded bg-black/60 border border-blue-500/30 text-white"
+        placeholder="Your Name"
+        name="name"
+        required
+      />
 
-        <input
-          name="email"
-          type="email"
-          required
-          placeholder="Your Email"
-          className="w-full p-3 bg-black/60 text-white border border-blue-500/30 rounded"
-        />
+      <input
+        className="w-full p-3 rounded bg-black/60 border border-blue-500/30 text-white"
+        placeholder="Your Email"
+        name="email"
+        type="email"
+        required
+      />
 
-        <textarea
-          name="message"
-          rows="5"
-          required
-          placeholder="Your Message"
-          className="w-full p-3 bg-black/60 text-white border border-blue-500/30 rounded"
-        />
+      <textarea
+        className="w-full p-3 rounded bg-black/60 border border-blue-500/30 text-white"
+        rows="5"
+        placeholder="Your Message"
+        name="message"
+        required
+      />
 
-        <button className="w-full bg-blue-600/30 hover:bg-blue-600/50 border border-blue-400/40 text-white py-3 rounded">
-          Send Message
-        </button>
-      </form>
+      <button className="w-full py-3 rounded bg-blue-600/40 border border-blue-500/40 hover:bg-blue-600/60 text-white font-semibold transition">
+        Send Message
+      </button>
+    </form>
 
-      <div className="mt-6 text-gray-300 text-sm">
-        <p>
-          <FiMail className="inline mr-1" /> saikumarkaipelly24@gmail.com
-        </p>
-        <p>
-          <FiPhone className="inline mr-1" /> 816-352-4575
-        </p>
-      </div>
-    </section>
-  );
-};
+    <div className="mt-6 text-gray-300 text-sm">
+      <p>
+        <FiMail className="inline mr-1" /> saikumarkaipelly24@gmail.com
+      </p>
+      <p>
+        <FiPhone className="inline mr-1" /> 816-352-4575
+      </p>
+    </div>
+  </section>
+);
 
-/* ----------------------------------
-   MAIN APP COMPONENT
------------------------------------ */
+/* ==================================
+        MAIN APP
+================================== */
 export default function App() {
   const [darkMode, setDarkMode] = useState(true);
 
   return (
     <Router>
-      <Suspense fallback={<div className="text-center text-gray-400 py-20">Loading...</div>}>
-        <Routes>
-          <Route
-            path="/"
-            element={<Layout darkMode={darkMode} toggleTheme={() => setDarkMode(!darkMode)}><Home /></Layout>}
-          />
-          <Route
-            path="/skills"
-            element={<Layout darkMode={darkMode} toggleTheme={() => setDarkMode(!darkMode)}><Skills /></Layout>}
-          />
-          <Route
-            path="/experience"
-            element={<Layout darkMode={darkMode} toggleTheme={() => setDarkMode(!darkMode)}><Experience /></Layout>}
-          />
-          <Route
-            path="/education"
-            element={<Layout darkMode={darkMode} toggleTheme={() => setDarkMode(!darkMode)}><Education /></Layout>}
-          />
-          <Route
-            path="/contact"
-            element={<Layout darkMode={darkMode} toggleTheme={() => setDarkMode(!darkMode)}><Contact /></Layout>}
-          />
-        </Routes>
-      </Suspense>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Layout darkMode={darkMode} toggleTheme={() => setDarkMode(!darkMode)}>
+              <Home />
+            </Layout>
+          }
+        />
+        <Route
+          path="/skills"
+          element={
+            <Layout darkMode={darkMode} toggleTheme={() => setDarkMode(!darkMode)}>
+              <Skills />
+            </Layout>
+          }
+        />
+        <Route
+          path="/experience"
+          element={
+            <Layout darkMode={darkMode} toggleTheme={() => setDarkMode(!darkMode)}>
+              <Experience />
+            </Layout>
+          }
+        />
+        <Route
+          path="/education"
+          element={
+            <Layout darkMode={darkMode} toggleTheme={() => setDarkMode(!darkMode)}>
+              <Education />
+            </Layout>
+          }
+        />
+        <Route
+          path="/contact"
+          element={
+            <Layout darkMode={darkMode} toggleTheme={() => setDarkMode(!darkMode)}>
+              <Contact />
+            </Layout>
+          }
+        />
+      </Routes>
     </Router>
   );
 }
