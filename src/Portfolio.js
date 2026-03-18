@@ -72,7 +72,7 @@ const Layout = ({ children, darkMode, toggleTheme }) => {
 
       {/* FOOTER */}
       <footer className="text-center py-6 text-gray-400 text-xs border-t border-blue-500/20">
-        © Sai Kumar Kaipelly 2025 — All Rights Reserved
+        © Sai Kumar Kaipelly 2026 — All Rights Reserved
       </footer>
     </div>
   );
