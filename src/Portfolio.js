@@ -301,7 +301,6 @@ const Contact = () => {
 
       <div className="mt-6 text-gray-300 text-sm">
         <p><FiMail className="inline mr-1" /> saikumarkaipelly24@gmail.com</p>
-        //<p><FiPhone className="inline mr-1" /> 816-352-4575</p>
       </div>
     </section>
   );
